@@ -8,7 +8,7 @@ export const useContactStore = defineStore('contact', () => {
   const currentPage = ref(1);
   const totalPages = ref(1);
 
-  const fetchContacts = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1) => {
+  const fetchContacts = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1, query: string = '') => {
     try {
       sortField = sortField ? sortField : 'name';
       sortOrder = sortOrder ? sortOrder : 'asc';
@@ -19,6 +19,7 @@ export const useContactStore = defineStore('contact', () => {
           direction: sortOrder,
           page,
           per_page: 10,
+          query: query,
         }
       });
 

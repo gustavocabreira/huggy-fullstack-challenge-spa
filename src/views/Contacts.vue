@@ -6,10 +6,7 @@
 
     <Container class="w-full">
       <div class="flex items-center justify-between gap-8 p-4">
-        <input
-          type="text"
-          placeholder="Nome"
-          class="border rounded p-2"
+        <SearchInput
           v-model="searchQuery"
         />
         <Button icon="add" color="primary">Adicionar contato</Button>
@@ -31,13 +28,17 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { type TablePagination, type TableColumn, type TableRow } from '../types/ui/TableType';
 import { useContactStore } from '../stores/useContactStore';
 
 import Button from '@/components/ui/Button.vue';
 import Container from '@/components/ui/Container.vue';
 import Table from '../components/ui/Table.vue';
+import SearchInput from '../components/ui/SearchInput.vue';
+
+
+const searchQuery = ref('');
 
 const tableColumns = ref<TableColumn[]>([
   { name: 'Nome', field: 'name' },
@@ -51,15 +52,15 @@ const tablePagination = ref<TablePagination>({
   current_page: 1,
   last_page: 1,
   total: 1,
+  query: searchQuery.value,
 });
 
 const contactStore = useContactStore();
 const { fetchContacts, loading, error } = contactStore;
-const searchQuery = ref('');
 
-const getData = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1) => {
+const getData = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1, query: string = '') => {
   try {
-    await fetchContacts(sortField, sortOrder, page);
+    await fetchContacts(sortField, sortOrder, page, query);
     setData();
   } catch (err) {
     console.error('Error fetching contacts:', err);
@@ -73,10 +74,15 @@ const setData = () => {
     current_page: currentPage,
     last_page: totalPages,
     total: contacts.length,
+    query: searchQuery.value,
   };
 
   tableItems.value = contacts;
 };
+
+watch(searchQuery, (newValue) => {
+  getData(undefined, undefined, 1, newValue);
+});
 
 onMounted(async () => {
   await fetchContacts();

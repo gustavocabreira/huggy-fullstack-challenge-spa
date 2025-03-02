@@ -13,4 +13,5 @@ export interface TablePagination {
   current_page: number;
   last_page: number;
   total: number;
+  query: string;
 }
