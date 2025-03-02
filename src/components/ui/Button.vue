@@ -1,7 +1,7 @@
 <template>
   <component :is="isLink ? 'a' : 'button'" :class="`btn btn-${color} flex items-center`" :href="href">
-    <span v-if="icon" class="mr-2"> <!-- Margin right for spacing -->
-      <img :src="selectedIcon" alt="Add Icon" class="w-4 h-4" /> <!-- Tailwind classes for icon size -->
+    <span v-if="icon" class="mr-2">
+      <img :src="selectedIcon" alt="Add Icon" class="w-4 h-4" />
     </span>
     <slot></slot>
   </component>
