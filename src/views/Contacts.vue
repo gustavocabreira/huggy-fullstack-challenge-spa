@@ -24,15 +24,4 @@ import Table from '@/components/contacts/ContactTable.vue';
 import SearchInput from '@/components/ui/SearchInput.vue';
 
 const searchQuery = ref('');
-
 </script>
-
-<style scoped lang="scss">
-.row:nth-child(odd)>div {
-  background-color: #f8f8f8;
-}
-
-.row:nth-child(even)>div {
-  background-color: #ffffff;
-}
-</style>
