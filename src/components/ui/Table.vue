@@ -15,9 +15,9 @@
           <div v-for="(column, colIndex) in columns" :key="colIndex"
             :class="colIndex === columns.length - 1 ? 'flex-none body-2 w-24' : 'flex-1 body-2'">
             <template v-if="colIndex === columns.length - 1">
-              <div class="action-buttons justify-center items-center h-full">
-                <button class="text-blue-600 text-sm" @click="editRow(row)">✏️</button>
-                <button class="text-red-600 text-sm" @click="deleteRow(row)">🗑️</button>
+              <div class="action-buttons justify-end items-center h-full gap-4">
+                <Icon icon="edit" @click="editRow(row)">Editar</Icon>
+                <Icon icon="delete" @click="deleteRow(row)">Excluir</Icon>
               </div>
             </template>
             <template v-else>
@@ -49,6 +49,7 @@
 import { defineProps, ref } from 'vue';
 import type { TableColumn, TablePagination, TableRow } from '../../types/ui/TableType';
 import Button from '@/components/ui/Button.vue';
+import Icon from '@/components/ui/Icon.vue'; 
 import noContactImage from '@/assets/images/no-contact.png';
 
 const props = defineProps<{

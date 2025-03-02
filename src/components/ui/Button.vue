@@ -10,6 +10,7 @@
 <script lang="ts" setup>
 
 import addIcon from '@/assets/images/add.png';
+
 import { computed } from 'vue';
 
 const props = defineProps({
