@@ -47,7 +47,8 @@
     <ConfirmDialog
       title="Excluir esse contato?"
       :isVisible="isModalVisible"
-      @update:isVisible="isModalVisible = $event"/>
+      @update:isVisible="isModalVisible = $event"
+      @confirm="performDeleteRow"/>
   </div>
 </template>
 
@@ -67,12 +68,15 @@ const props = defineProps<{
 }>();
 
 const activeRow = ref<number | null>(null);
+const selectedRow = ref<TableRow | null>(null);
 
 const sortField = ref('');
 const sortOrder = ref('asc');
 
 const isLoading = ref(false);
 const isModalVisible = ref(false);
+
+const emit = defineEmits(['deleteRow']);
 
 const sortBy = async (field: string) => {
   if (!props.items.length || isLoading.value) return;
@@ -111,7 +115,7 @@ const editRow = (row: TableRow) => {
 };
 
 const deleteRow = (row: TableRow) => {
-  showModal();
+  showConfirmDialog(row);
 };
 
 const setActiveRow = (index: number) => {
@@ -122,9 +126,19 @@ const setActiveRow = (index: number) => {
   }
 };
 
-const showModal = () => {
+const showConfirmDialog = (row: TableRow) => {
+  selectedRow.value = row;
   isModalVisible.value = true;
 };
+
+const performDeleteRow = async () => {
+  if (!selectedRow.value) return;
+
+  emit('deleteRow', selectedRow.value);
+  selectedRow.value = null;
+  activeRow.value = null;
+};
+
 </script>
 
 <style scoped lang="scss">

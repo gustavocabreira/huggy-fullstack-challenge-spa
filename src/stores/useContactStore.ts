@@ -31,10 +31,20 @@ export const useContactStore = defineStore('contact', () => {
     }
   };
 
+  const deleteContact = async (contact: Contact) => {
+    try {
+      await client.delete(`contacts/${contact.id}`);
+      contacts.value = contacts.value.filter(c => c.id !== contact.id);
+    } catch (error) {
+      console.error('Error deleting contact:', error);
+    }
+  }
+
   return {
     contacts,
     currentPage,
     totalPages,
     fetchContacts,
+    deleteContact,
   };
 });

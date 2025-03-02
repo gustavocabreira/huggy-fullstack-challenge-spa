@@ -1,5 +1,6 @@
 <template>
-  <Table :columns="tableColumns" :items="tableItems" :getData="getData" :pagination="tablePagination">
+  <Table :columns="tableColumns" :items="tableItems" :getData="getData" :pagination="tablePagination"
+    @deleteRow="deleteContactAction">
     <template v-slot:name="{ row }">
       <div class="flex items-center gap-4">
         <Avatar :contact="row" />
@@ -15,6 +16,7 @@ import Avatar from '@/components/ui/Avatar.vue';
 import { onMounted, ref, watch } from 'vue';
 import { type TablePagination, type TableColumn, type TableRow } from '@/types/ui/TableType';
 import { useContactStore } from '@/stores/useContactStore';
+import type { Contact } from '@/types/Contact';
 
 const props = defineProps({
   query: {
@@ -39,7 +41,7 @@ const tablePagination = ref<TablePagination>({
 });
 
 const contactStore = useContactStore();
-const { fetchContacts, loading, error } = contactStore;
+const { fetchContacts, deleteContact } = contactStore;
 
 const getData = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1, query: string = '') => {
   try {
@@ -66,6 +68,17 @@ const setData = () => {
 watch(() => props.query, (newQuery) => {
   getData(undefined, undefined, 1, newQuery);
 });
+
+const deleteContactAction = async (contact: Contact) => {
+  tableItems.value = tableItems.value.filter(c => c.id !== contact.id);
+
+  try {
+    await deleteContact(contact);
+  } catch (error) {
+    console.error('Error deleting contact:', error);
+    tableItems.value.push(contact);
+  }
+};
 
 onMounted(async () => {
   await fetchContacts();
