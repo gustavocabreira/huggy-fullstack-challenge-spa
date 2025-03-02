@@ -43,6 +43,11 @@
       <span class="body-2 text-gray-500 font-normal">Ainda não há contatos</span>
       <Button class="mt-4" icon="add" color="primary">Adicionar contato</Button>
     </div>
+
+    <ConfirmDialog
+      title="Excluir esse contato?"
+      :isVisible="isModalVisible"
+      @update:isVisible="isModalVisible = $event"/>
   </div>
 </template>
 
@@ -52,6 +57,7 @@ import type { TableColumn, TablePagination, TableRow } from '../../types/ui/Tabl
 import Button from '@/components/ui/Button.vue';
 import Icon from '@/components/ui/Icon.vue';
 import noContactImage from '@/assets/images/no-contact.png';
+import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
 
 const props = defineProps<{
   columns: Array<TableColumn>;
@@ -66,6 +72,7 @@ const sortField = ref('');
 const sortOrder = ref('asc');
 
 const isLoading = ref(false);
+const isModalVisible = ref(false);
 
 const sortBy = async (field: string) => {
   if (!props.items.length || isLoading.value) return;
@@ -101,11 +108,10 @@ const nextPage = async () => {
 };
 
 const editRow = (row: TableRow) => {
-  console.log('Edit:', row);
 };
 
 const deleteRow = (row: TableRow) => {
-  console.log('Delete:', row);
+  showModal();
 };
 
 const setActiveRow = (index: number) => {
@@ -114,6 +120,10 @@ const setActiveRow = (index: number) => {
   } else {
     activeRow.value = index;
   }
+};
+
+const showModal = () => {
+  isModalVisible.value = true;
 };
 </script>
 
