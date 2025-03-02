@@ -10,7 +10,8 @@
     </div>
 
     <div v-if="items.length">
-      <div v-for="(row, index) in items" :key="index" class="row px-2 mt-2">
+      <div v-for="(row, index) in items" :key="index" class="row px-2 mt-2" @click="setActiveRow(index)"
+        :class="{ active: activeRow === index }">
         <div class="flex items-center px-4 py-2 rounded-md">
           <div v-for="(column, colIndex) in columns" :key="colIndex"
             :class="colIndex === columns.length - 1 ? 'flex-none body-2 w-24' : 'flex-1 body-2'">
@@ -49,7 +50,7 @@
 import { defineProps, ref } from 'vue';
 import type { TableColumn, TablePagination, TableRow } from '../../types/ui/TableType';
 import Button from '@/components/ui/Button.vue';
-import Icon from '@/components/ui/Icon.vue'; 
+import Icon from '@/components/ui/Icon.vue';
 import noContactImage from '@/assets/images/no-contact.png';
 
 const props = defineProps<{
@@ -58,6 +59,8 @@ const props = defineProps<{
   pagination: TablePagination;
   getData: (sortField: string, sortOrder: string, page: number, query: string) => Promise<void>;
 }>();
+
+const activeRow = ref<number | null>(null);
 
 const sortField = ref('');
 const sortOrder = ref('asc');
@@ -104,6 +107,14 @@ const editRow = (row: TableRow) => {
 const deleteRow = (row: TableRow) => {
   console.log('Delete:', row);
 };
+
+const setActiveRow = (index: number) => {
+  if (activeRow.value == index) {
+    activeRow.value = null;
+  } else {
+    activeRow.value = index;
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -120,6 +131,26 @@ const deleteRow = (row: TableRow) => {
     .action-buttons {
       display: flex;
     }
+  }
+
+  &:hover {
+    &>div {
+      background-color: #f8f8f8;
+    }
+
+    .action-buttons {
+      display: flex;
+    }
+  }
+}
+
+.active {
+  &>div {
+    background-color: #f8f8f8;
+  }
+
+  .action-buttons {
+    display: flex;
   }
 }
 </style>
