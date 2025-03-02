@@ -1,1 +1,26 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+h1 {
+  font-size: 1.5em;
+  font-weight: 400;
+  line-height: 2em;
+  letter-spacing: 0px;
+  font-family: Roboto, 'sans-serif';
+  color: #262626;
+}
+
+.btn {
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  padding: 9px 12px;
+  border-radius: 8px;
+}
+
+.btn-primary {
+  background-color: #321BDE;
+  color: white;
+}
