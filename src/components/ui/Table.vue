@@ -43,6 +43,12 @@
       <span class="body-2 text-gray-500 font-normal">Ainda não há contatos</span>
       <Button class="mt-4" icon="add" color="primary">Adicionar contato</Button>
     </div>
+
+    <ConfirmDialog
+      title="Excluir esse contato?"
+      :isVisible="isModalVisible"
+      @update:isVisible="isModalVisible = $event"
+      @confirm="performDeleteRow"/>
   </div>
 </template>
 
@@ -52,6 +58,7 @@ import type { TableColumn, TablePagination, TableRow } from '../../types/ui/Tabl
 import Button from '@/components/ui/Button.vue';
 import Icon from '@/components/ui/Icon.vue';
 import noContactImage from '@/assets/images/no-contact.png';
+import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
 
 const props = defineProps<{
   columns: Array<TableColumn>;
@@ -61,11 +68,15 @@ const props = defineProps<{
 }>();
 
 const activeRow = ref<number | null>(null);
+const selectedRow = ref<TableRow | null>(null);
 
 const sortField = ref('');
 const sortOrder = ref('asc');
 
 const isLoading = ref(false);
+const isModalVisible = ref(false);
+
+const emit = defineEmits(['deleteRow']);
 
 const sortBy = async (field: string) => {
   if (!props.items.length || isLoading.value) return;
@@ -101,11 +112,10 @@ const nextPage = async () => {
 };
 
 const editRow = (row: TableRow) => {
-  console.log('Edit:', row);
 };
 
 const deleteRow = (row: TableRow) => {
-  console.log('Delete:', row);
+  showConfirmDialog(row);
 };
 
 const setActiveRow = (index: number) => {
@@ -115,6 +125,20 @@ const setActiveRow = (index: number) => {
     activeRow.value = index;
   }
 };
+
+const showConfirmDialog = (row: TableRow) => {
+  selectedRow.value = row;
+  isModalVisible.value = true;
+};
+
+const performDeleteRow = async () => {
+  if (!selectedRow.value) return;
+
+  emit('deleteRow', selectedRow.value);
+  selectedRow.value = null;
+  activeRow.value = null;
+};
+
 </script>
 
 <style scoped lang="scss">
