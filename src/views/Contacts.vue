@@ -6,16 +6,14 @@
 
     <Container class="w-full">
       <div class="flex items-center justify-between gap-8 p-4">
-        <SearchInput
-          v-model="searchQuery"
-        />
+        <SearchInput v-model="searchQuery" />
         <Button icon="add" color="primary">Adicionar contato</Button>
       </div>
 
       <Table :columns="tableColumns" :items="tableItems" :getData="getData" :pagination="tablePagination">
         <template v-slot:name="{ row }">
           <div class="flex items-center gap-4">
-            <img :src="row.photo_url" alt="Avatar" class="w-10 h-10 rounded-full object-cover" />
+            <Avatar :row="row" />
             <span>{{ row.name }}</span>
           </div>
         </template>
@@ -36,6 +34,7 @@ import Button from '@/components/ui/Button.vue';
 import Container from '@/components/ui/Container.vue';
 import Table from '../components/ui/Table.vue';
 import SearchInput from '../components/ui/SearchInput.vue';
+import Avatar from '../components/ui/Avatar.vue';
 
 
 const searchQuery = ref('');
@@ -91,11 +90,11 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
-.row:nth-child(odd) > div {
+.row:nth-child(odd)>div {
   background-color: #f8f8f8;
 }
 
-.row:nth-child(even) > div {
+.row:nth-child(even)>div {
   background-color: #ffffff;
 }
 </style>

@@ -65,3 +65,10 @@ input {
   letter-spacing: 0.4px;
   color: #505050;
 }
+
+.subtitle2 {
+  font-size: 0.875em;
+  font-weight: 500;
+  line-height: 1.125em;
+  letter-spacing: 0.1px;
+}
