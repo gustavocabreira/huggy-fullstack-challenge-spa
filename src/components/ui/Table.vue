@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-2/3">
+  <div>
     <div class="flex px-6 py-4 border-b border-gray-200">
       <div v-for="(column, index) in columns" :key="index" :class="[
         index === columns.length - 1 ? 'flex-none w-24' : 'flex-1',

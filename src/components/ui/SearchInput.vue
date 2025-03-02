@@ -6,7 +6,7 @@
         @input="debounceEmit"
         type="text"
         placeholder="Buscar contato"
-        class="border border-gray-300 rounded-full py-2 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        class="border border-gray-300 rounded-full py-2 pl-10 pr-4 w-full focus:outline-none body-2" />
       <img :src="searchIcon" alt="Search Icon" class="absolute left-3 top-1/2 transform -translate-y-1/2" />
     </div>
   </div>
@@ -35,5 +35,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Additional styles if needed */
+input {
+  background: #F8F8F8;
+  color: #949494;
+}
 </style>

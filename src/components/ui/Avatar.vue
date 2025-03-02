@@ -1,24 +1,25 @@
 <template>
   <div class="avatar flex items-center justify-center w-10 h-10 rounded-full subtitle2">
-    <img v-if="hasAvatar" :src="row.photo_url" alt="Avatar" class="w-full h-full rounded-full object-cover" />
+    <img v-if="hasAvatar" :src="contact.photo_url" alt="Avatar" class="w-full h-full rounded-full object-cover" />
     <span v-else>{{ initials }}</span>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
+import { Contact } from '@/types/Contact';
 
 const props = defineProps({
-  row: {
-    type: Object,
+  contact: {
+    type: Object as () => Contact,
     required: true,
   },
 });
 
-const hasAvatar = computed(() => !!props.row.photo_url);
+const hasAvatar = computed(() => !!props.contact.photo);
 
 const initials = computed(() => {
-  const names = props.row.name.split(' ');
+  const names = props.contact.name.split(' ');
   const firstInitial = names[0]?.charAt(0).toUpperCase() || '';
   const secondInitial = names[1]?.charAt(0).toUpperCase() || '';
   return `${firstInitial}${secondInitial}`;
