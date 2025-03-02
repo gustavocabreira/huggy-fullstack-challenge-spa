@@ -3,10 +3,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onBeforeMount } from "vue";
 import { useUserStore } from '@/stores/useUserStore';
 
-onMounted(() => {
+onBeforeMount(() => {
   const userStore = useUserStore();
   userStore.getUser();
 });

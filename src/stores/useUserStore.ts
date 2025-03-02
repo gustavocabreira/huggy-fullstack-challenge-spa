@@ -24,7 +24,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   function getUser() {
-    const accessToken = localStorage.getItem('access_token').replaceAll(`"`, '');
+    const accessToken = localStorage.getItem('access_token')?.replaceAll(`"`, '');
 
     client.get('me', {
       headers: {
