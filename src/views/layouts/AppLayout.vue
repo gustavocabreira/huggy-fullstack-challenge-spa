@@ -1,8 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen min-w-screen">
-    layout
-    <slot></slot>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script setup lang="ts">

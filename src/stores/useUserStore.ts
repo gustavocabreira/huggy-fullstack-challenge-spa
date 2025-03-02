@@ -15,9 +15,12 @@ export const useUserStore = defineStore('user', () => {
     localStorage.setItem('access_token', JSON.stringify(accessToken));
   }
 
-  function logout() {
+  async function logout() {
     user.value = null;
-    localStorage.removeItem('access_token');
+    await localStorage.removeItem('access_token');
+    router.push({
+      name: 'Login',
+    });
   }
 
   function getUser() {
@@ -32,9 +35,7 @@ export const useUserStore = defineStore('user', () => {
       setUser(response.data, accessToken as string);
     })
     .catch(error => {
-      router.push({
-        name: 'Login',
-      });
+      logout();
     })
   }
 
