@@ -37,9 +37,9 @@
         </div>
       </div>
       <div class="flex items-center justify-between p-4">
-        <Button @click="prevPage" class="caption" color="grey" :disabled="pagination.current_page === 1">Anterior</Button>
+        <Button @click="prevPage" class="caption" color="grey" :disabled="pagination.current_page === 1 || isLoading">Anterior</Button>
         <span class="caption">Página {{ pagination.current_page }} de {{ pagination.last_page }}</span>
-        <Button @click="nextPage" class="caption" color="grey" :disabled="pagination.current_page === pagination.last_page">Próxima</Button>
+        <Button @click="nextPage" class="caption" color="grey" :disabled="pagination.current_page === pagination.last_page || isLoading">Próxima</Button>
       </div>
     </div>
 
@@ -67,8 +67,10 @@ const props = defineProps<{
 const sortField = ref('');
 const sortOrder = ref('asc');
 
+const isLoading = ref(false);
+
 const sortBy = async (field: string) => {
-  if (!props.items.length) return;
+  if (!props.items.length || isLoading.value) return;
 
   if (sortField.value === field) {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
@@ -77,19 +79,27 @@ const sortBy = async (field: string) => {
     sortOrder.value = 'asc';
   }
 
+  isLoading.value = true;
+
   await props.getData(sortField.value, sortOrder.value, props.pagination.current_page);
+
+  isLoading.value = false;
 };
 
 const prevPage = async () => {
-  if (!props.items.length) return;
+  if (!props.items.length || isLoading.value) return;
 
+  isLoading.value = true;
   await props.getData(sortField.value, sortOrder.value, props.pagination.current_page - 1);
+  isLoading.value = false;
 };
 
 const nextPage = async () => {
-  if (!props.items.length) return;
+  if (!props.items.length || isLoading.value) return;
 
+  isLoading.value = true;
   await props.getData(sortField.value, sortOrder.value, props.pagination.current_page + 1);
+  isLoading.value = false;
 };
 
 const editRow = (row: TableRow) => {
