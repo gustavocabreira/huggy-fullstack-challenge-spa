@@ -10,12 +10,12 @@
     </div>
 
     <div v-if="items.length">
-      <div v-for="(row, index) in items" :key="index" class="row px-2">
-        <div class="flex items-center px-4 py-4 rounded-md">
+      <div v-for="(row, index) in items" :key="index" class="row px-2 mt-2">
+        <div class="flex items-center px-4 py-2 rounded-md">
           <div v-for="(column, colIndex) in columns" :key="colIndex"
             :class="colIndex === columns.length - 1 ? 'flex-none body-2 w-24' : 'flex-1 body-2'">
             <template v-if="colIndex === columns.length - 1">
-              <div class="flex justify-center items-center h-full">
+              <div class="action-buttons justify-center items-center h-full">
                 <button class="text-blue-600 text-sm" @click="editRow(row)">✏️</button>
                 <button class="text-red-600 text-sm" @click="deleteRow(row)">🗑️</button>
               </div>
@@ -106,15 +106,19 @@ const deleteRow = (row: TableRow) => {
 </script>
 
 <style scoped lang="scss">
-.row:nth-child(even)>div {
-  background-color: #f8f8f8;
-}
+.row {
+  .action-buttons {
+    display: none;
+  }
 
-.row:nth-child(odd)>div {
-  background-color: #ffffff;
-}
+  &:hover {
+    &>div {
+      background-color: #f8f8f8;
+    }
 
-.min-h-2\/3 {
-  min-height: calc(2 / 3 * 100vh);
+    .action-buttons {
+      display: flex;
+    }
+  }
 }
 </style>
