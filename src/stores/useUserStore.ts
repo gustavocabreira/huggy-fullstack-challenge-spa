@@ -15,13 +15,16 @@ export const useUserStore = defineStore('user', () => {
     localStorage.setItem('access_token', JSON.stringify(accessToken));
   }
 
-  function logout() {
+  async function logout() {
     user.value = null;
-    localStorage.removeItem('access_token');
+    await localStorage.removeItem('access_token');
+    router.push({
+      name: 'Login',
+    });
   }
 
   function getUser() {
-    const accessToken = localStorage.getItem('access_token').replaceAll(`"`, '');
+    const accessToken = localStorage.getItem('access_token')?.replaceAll(`"`, '');
 
     client.get('me', {
       headers: {
@@ -32,9 +35,7 @@ export const useUserStore = defineStore('user', () => {
       setUser(response.data, accessToken as string);
     })
     .catch(error => {
-      router.push({
-        name: 'Login',
-      });
+      logout();
     })
   }
 

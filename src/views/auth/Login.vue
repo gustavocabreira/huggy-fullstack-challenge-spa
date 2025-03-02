@@ -28,7 +28,7 @@ const login = (accessToken: string) => {
   }).then(response => {
     userStore.setUser(response.data, accessToken);
     router.push({
-      name: 'Home',
+      name: 'Contacts',
     })
   }).then(error => {
     alert(error.response.data.message);

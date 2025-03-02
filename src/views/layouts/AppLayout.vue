@@ -1,15 +1,14 @@
 <template>
-  <div class="flex flex-col min-h-screen min-w-screen">
-    layout
-    <slot></slot>
+  <div class="px-4 sm:px-4 md:px-0 pb-8">
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onBeforeMount } from "vue";
 import { useUserStore } from '@/stores/useUserStore';
 
-onMounted(() => {
+onBeforeMount(() => {
   const userStore = useUserStore();
   userStore.getUser();
 });
