@@ -119,13 +119,6 @@ import Dialog from '@/components/ui/Dialog.vue';
 
 const isDialogVisible = ref(false);
 
-const props = defineProps({
-  display: {
-    type: Boolean,
-    required: true,
-  }
-})
-
 const contactStore = useContactStore();
 const { createContact } = contactStore;
 
