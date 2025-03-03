@@ -41,7 +41,7 @@
     <div v-else class="flex flex-col items-center justify-center p-4 min-h-2/3 gap-4">
       <img :src="noContactImage" alt="No Contacts" />
       <span class="body-2 text-gray-500 font-normal">Ainda não há contatos</span>
-      <Button class="mt-4" icon="add" color="primary">Adicionar contato</Button>
+      <Button class="mt-4" icon="add" color="primary" @click="toggleContactDialog">Adicionar contato</Button>
     </div>
 
     <ConfirmDialog
@@ -49,7 +49,9 @@
       :isVisible="isModalVisible"
       @update:isVisible="isModalVisible = $event"
       @confirm="performDeleteRow"/>
-  </div>
+
+      <CreateUpdateContact ref="createUpdateContact"/>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -59,6 +61,7 @@ import Button from '@/components/ui/Button.vue';
 import Icon from '@/components/ui/Icon.vue';
 import noContactImage from '@/assets/images/no-contact.png';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
+import CreateUpdateContact from '@/components/contacts/CreateUpdateContact.vue'; 
 
 const props = defineProps<{
   columns: Array<TableColumn>;
@@ -75,6 +78,8 @@ const sortOrder = ref('asc');
 
 const isLoading = ref(false);
 const isModalVisible = ref(false);
+
+const createUpdateContact = ref(null);
 
 const emit = defineEmits(['deleteRow']);
 
@@ -139,6 +144,9 @@ const performDeleteRow = async () => {
   activeRow.value = null;
 };
 
+const toggleContactDialog = () => {
+  createUpdateContact?.value?.toggleVisible();
+};
 </script>
 
 <style scoped lang="scss">

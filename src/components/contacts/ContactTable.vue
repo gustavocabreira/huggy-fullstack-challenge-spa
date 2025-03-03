@@ -8,6 +8,8 @@
       </div>
     </template>
   </Table>
+
+  <CreateUpdateContact />
 </template>
 
 <script setup lang="ts">
@@ -17,6 +19,7 @@ import { onMounted, ref, watch } from 'vue';
 import { type TablePagination, type TableColumn, type TableRow } from '@/types/ui/TableType';
 import { useContactStore } from '@/stores/useContactStore';
 import type { Contact } from '@/types/Contact';
+import CreateUpdateContact from './CreateUpdateContact.vue';
 
 const props = defineProps({
   query: {
@@ -24,6 +27,7 @@ const props = defineProps({
     default: '',
   },
 });
+
 
 const tableColumns = ref<TableColumn[]>([
   { name: 'Nome', field: 'name' },
@@ -41,7 +45,7 @@ const tablePagination = ref<TablePagination>({
 });
 
 const contactStore = useContactStore();
-const { fetchContacts, deleteContact } = contactStore;
+const { fetchContacts, deleteContact, createContact } = contactStore;
 
 const getData = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1, query: string = '') => {
   try {

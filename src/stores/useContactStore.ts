@@ -31,6 +31,11 @@ export const useContactStore = defineStore('contact', () => {
     }
   };
 
+  const createContact = async (contact: Contact) => {
+    const response = await client.post('contacts', contact);
+    contacts.value.push(response.data);
+  }
+
   const deleteContact = async (contact: Contact) => {
     try {
       await client.delete(`contacts/${contact.id}`);
@@ -46,5 +51,6 @@ export const useContactStore = defineStore('contact', () => {
     totalPages,
     fetchContacts,
     deleteContact,
+    createContact,
   };
 });

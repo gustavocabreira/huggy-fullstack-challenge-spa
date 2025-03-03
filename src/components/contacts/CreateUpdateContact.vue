@@ -1,0 +1,112 @@
+<template>
+  <Dialog :isVisible="isDialogVisible" @update:isVisible="isDialogVisible = $event" @confirm="storeContact">
+    <template v-slot:header>
+      <h2>Adicionar novo contato</h2>
+    </template>
+    <template v-slot:body>
+      <form>
+        <div class="flex flex-col space-y-5">
+          <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
+            <Input label="Nome" type="text" id="name" v-model="contact.name" placeholder="Nome"
+              class="w-full md:w-1/2" />
+            <Input label="Data de Nascimento" type="text" id="date_of_birth" v-model="contact.date_of_birth"
+              placeholder="Data de Nascimento" class="w-full md:w-1/2" />
+          </div>
+          <Input label="Email" type="email" id="email" v-model="contact.email" placeholder="Email" class="w-full" />
+          <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
+            <Input label="Telefone" type="text" id="phone_number" v-model="contact.phone_number" placeholder="Telefone"
+              class="w-full md:w-1/2" />
+            <Input label="Celular" type="text" id="cellphone_number" v-model="contact.cellphone_number"
+              placeholder="Celular" class="w-full md:w-1/2" />
+          </div>
+          <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
+            <Input label="CEP" type="text" id="zip_code" v-model="contact.zip_code" placeholder="CEP"
+              class="w-full md:w-1/4" />
+            <Input label="Endereço" type="text" id="address" v-model="contact.address" placeholder="Endereço"
+              class="w-full md:w-3/4" />
+          </div>
+          <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
+            <Input label="Bairro" type="text" id="district" v-model="contact.district" placeholder="Bairro"
+              class="w-full md:w-1/2" />
+            <Input label="Cidade" type="text" id="city" v-model="contact.city" placeholder="Cidade"
+              class="w-full md:w-1/2" />
+          </div>
+          <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
+            <Input label="Estado" type="text" id="state" v-model="contact.state" placeholder="Estado"
+              class="w-full md:w-1/2" />
+            <Input label="País" type="text" id="country" v-model="contact.country" placeholder="País"
+              class="w-full md:w-1/2" />
+          </div>
+        </div>
+      </form>
+    </template>
+  </Dialog>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import type { Contact } from '@/types/Contact';
+import { useContactStore } from '@/stores/useContactStore';
+import Input from '@/components/ui/Input.vue';
+import Dialog from '@/components/ui/Dialog.vue';
+
+const isDialogVisible = ref(false);
+
+const props = defineProps({
+  display: {
+    type: Boolean,
+    required: true,
+  }
+})
+
+const contactStore = useContactStore();
+const { createContact } = contactStore;
+
+const contact = ref<Contact>({
+  id: 0,
+  name: '',
+  date_of_birth: '',
+  email: '',
+  cellphone_number: '',
+  phone_number: '',
+  address: '',
+  district: '',
+  city: '',
+  state: '',
+  country: '',
+  zip_code: '',
+  photo: '',
+});
+
+const storeContact = async () => {
+  try {
+    await createContact(contact.value);
+    contact.value = {
+      id: 0,
+      name: '',
+      email: '',
+      cellphone_number: '',
+      phone_number: '',
+      address: '',
+      district: '',
+      city: '',
+      state: '',
+      country: '',
+      zip_code: '',
+      photo: '',
+    };
+
+    isDialogVisible.value = false;
+  } catch (error) {
+    console.error('Error storing contact:', error);
+  }
+};
+
+const toggleVisible = () => {
+  isDialogVisible.value = !isDialogVisible.value;
+}
+
+defineExpose({
+  toggleVisible,
+})
+</script>
