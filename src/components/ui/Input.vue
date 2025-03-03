@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <label :for="props.id" class="caption text-mine-shaft-700 font-medium">{{ props.label }}</label>
+    <Caption is="label" :for="props.id" class="text-mine-shaft-700 font-medium">{{ props.label }}</Caption>
 
     <input
       v-model="inputValue"

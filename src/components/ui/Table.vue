@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="flex px-6 py-4 border-b border-gray-200">
-      <div v-for="(column, index) in columns" :key="index" :class="[
+      <Caption v-for="(column, index) in columns" :key="index" :class="[
         index === columns.length - 1 ? 'flex-none w-24' : 'flex-1',
-        'text-left caption cursor-pointer'
+        'text-left cursor-pointer'
       ]" @click="sortBy(column.field)">
         {{ column.name }} <span v-if="sortField === column.field">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
-      </div>
+      </Caption>
     </div>
 
     <div v-if="items.length">
@@ -29,12 +29,12 @@
           </div>
         </div>
       </div>
-      <div class="flex items-center justify-between p-4">
-        <Button @click="prevPage" class="caption" color="grey"
-          :disabled="pagination.current_page === 1 || isLoading">Anterior</Button>
-        <span class="caption">Página {{ pagination.current_page }} de {{ pagination.last_page }}</span>
-        <Button @click="nextPage" class="caption" color="grey"
-          :disabled="pagination.current_page === pagination.last_page || isLoading">Próxima</Button>
+      <div class="flex items-center justify-between p-4 mt-4">
+        <Caption type="button" @click="prevPage"
+          :disabled="pagination.current_page === 1 || isLoading">Anterior</Caption>
+        <Caption>Página {{ pagination.current_page }} de {{ pagination.last_page }}</Caption>
+        <Caption type="button" @click="nextPage"
+          :disabled="pagination.current_page === pagination.last_page || isLoading">Próxima</Caption>
       </div>
     </div>
 
@@ -62,6 +62,7 @@ import Icon from '@/components/ui/Icon.vue';
 import noContactImage from '@/assets/images/no-contact.png';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
 import CreateUpdateContact from '@/components/contacts/CreateUpdateContact.vue'; 
+import Caption from '@/components/ui/Caption.vue';
 
 const props = defineProps<{
   columns: Array<TableColumn>;
