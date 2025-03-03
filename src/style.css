@@ -13,6 +13,17 @@
   --color-mine-shaft-30: #E1E1E1;
   --color-mine-shaft-10: #F8F8F8;
 
+  --color-persian-blue-900: #060321;
+  --color-persian-blue-800: #180D6E;
+  --color-persian-blue-700: #271580;
+  --color-persian-blue-400: #321BDE;
+  --color-persian-blue-100: #5046E4;
+  --color-persian-blue-80: #7E6FEA;
+  --color-persian-blue-60: #9F94EF;
+  --color-persian-blue-40: #BDB5F4;
+  --color-persian-blue-30: #DAD6F9;
+  --color-persian-blue-10: #F8F7FD;
+
   --color-alizarin-crimson-900: #330103;
   --color-alizarin-crimson-800: #450606;
   --color-alizarin-crimson-700: #75120D;
@@ -23,6 +34,17 @@
   --color-alizarin-crimson-40: #EEAB91;
   --color-alizarin-crimson-30: #F4CAB6;
   --color-alizarin-crimson-10: #FAECE3;
+
+  --color-deep-sea-900: #00120b;
+  --color-deep-sea-800: #002F1E;
+  --color-deep-sea-700: #004B30;
+  --color-deep-sea-400: #006843;
+  --color-deep-sea-100: #008858;
+  --color-deep-sea-80: #309E77;
+  --color-deep-sea-60: #5EB495;
+  --color-deep-sea-40: #8ECAB4;
+  --color-deep-sea-30: #C1E2D6;
+  --color-deep-sea-10: #F5FAF8;
 }
 
 #app {
@@ -100,4 +122,3 @@ input {
 .text-red {
   color: #D3321B;
 }
-

@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
-      <div class="modal-content">
+      <div class="modal-content border border-mine-shaft-30">
         <h2>{{ title }}</h2>
         <p class="modal-message">{{ message }}</p>
         <div class="flex items-center justify-end gap-2 mt-8">
@@ -51,7 +51,7 @@ const confirmAction = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,8 +61,8 @@ const confirmAction = () => {
 .modal-content {
   background: white;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px #00000026;
   position: relative;
   max-width: 400px;
   width: 100%;
