@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <label :for="props.id" class="caption text-mine-shaft-700 font-medium">{{ props.label }}</label>
-    
+
     <input
       v-model="inputValue"
       :type="props.type"
@@ -41,7 +41,7 @@ const props = defineProps({
     default: '',
   },
   error: {
-    type: String,
+    type: Array,
     default: null,
   }
 });

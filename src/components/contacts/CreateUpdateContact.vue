@@ -140,23 +140,29 @@ const contact = ref<Contact>({
 
 const errors = ref({});
 
+const clearForm = () => {
+  contact.value = {
+    id: 0,
+    name: '',
+    email: '',
+    cellphone_number: '',
+    phone_number: '',
+    address: '',
+    district: '',
+    city: '',
+    state: '',
+    country: '',
+    zip_code: '',
+    photo: '',
+  };
+
+  errors.value = [];
+};
+
 const storeContact = async () => {
   try {
     await createContact(contact.value);
-    contact.value = {
-      id: 0,
-      name: '',
-      email: '',
-      cellphone_number: '',
-      phone_number: '',
-      address: '',
-      district: '',
-      city: '',
-      state: '',
-      country: '',
-      zip_code: '',
-      photo: '',
-    };
+    clearForm();
 
     isDialogVisible.value = false;
   } catch (error) {
@@ -166,6 +172,7 @@ const storeContact = async () => {
 };
 
 const toggleVisible = () => {
+  clearForm();
   isDialogVisible.value = !isDialogVisible.value;
 }
 
