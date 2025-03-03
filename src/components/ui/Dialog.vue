@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div v-if="isVisible" class="modal-overlay p-4 md:p-0" @click.self="closeDialog">
+    <div v-if="isVisible" class="modal-overlay p-4 md:p-0" @click.self="closeModal">
       <div class="modal-content border border-mine-shaft-30 max-h-[90vh] overflow-y-auto">
         <div class="border-b border-mine-shaft-30 p-6">
           <slot name="header"></slot>
