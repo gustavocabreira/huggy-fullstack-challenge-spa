@@ -119,32 +119,15 @@ import Input from '@/components/ui/Input.vue';
 import Dialog from '@/components/ui/Dialog.vue';
 import ImageUploader from '@/components/ui/ImageUploader.vue';
 
-const isDialogVisible = ref(false);
+const isDialogVisible = ref(false); 
+const errors = ref({}); 
+const contact = ref<Contact>(initializeContact()); 
 
 const contactStore = useContactStore();
-const { createContact } = contactStore;
+const { createContact } = contactStore; 
 
-const contact = ref<Contact>({
-  id: 0,
-  name: '',
-  date_of_birth: '',
-  email: '',
-  cellphone_number: '',
-  phone_number: '',
-  address: '',
-  district: '',
-  city: '',
-  state: '',
-  country: '',
-  zip_code: '',
-  photo: null,
-  uploaded_photo: null,
-});
-
-const errors = ref({});
-
-const clearForm = () => {
-  contact.value = {
+function initializeContact(): Contact {
+  return {
     id: 0,
     name: '',
     date_of_birth: '',
@@ -160,31 +143,34 @@ const clearForm = () => {
     photo: null,
     uploaded_photo: null,
   };
+}
 
-  errors.value = {};
+const clearForm = () => {
+  contact.value = initializeContact();
+  errors.value = {}; 
 };
 
 const storeContact = async () => {
   try {
-    await createContact(contact.value);
-    clearForm();
-    isDialogVisible.value = false;
+    await createContact(contact.value); 
+    clearForm(); 
+    isDialogVisible.value = false; 
   } catch (error) {
     console.error('Error storing contact:', error);
-    errors.value = error.response.data.errors;
+    errors.value = error.response?.data?.errors || {}; 
   }
 };
 
-const updatePhoto = (file) => {
-  contact.value.uploaded_photo = file;
+const updatePhoto = (file: File) => {
+  contact.value.uploaded_photo = file; 
 };
 
 const toggleVisible = () => {
-  clearForm();
-  isDialogVisible.value = !isDialogVisible.value;
-}
+  clearForm(); 
+  isDialogVisible.value = !isDialogVisible.value; 
+};
 
 defineExpose({
   toggleVisible,
-})
+});
 </script>

@@ -52,7 +52,7 @@ const tablePagination = ref<TablePagination>({
 });
 
 const contactStore = useContactStore();
-const { fetchContacts, deleteContact, createContact } = contactStore;
+const { fetchContacts, deleteContact, setSelectedContact } = contactStore;
 
 const getData = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1, query: string = '') => {
   try {
@@ -94,6 +94,7 @@ const showContactDialog = ref(null);
 const selectedContact = ref<Contact | null>(null);
 
 const updateContactAction = async (contact: Contact) => {
+  setSelectedContact(contact);
   selectedContact.value = contact;
   showContactDialog.value?.toggleVisible();
 };

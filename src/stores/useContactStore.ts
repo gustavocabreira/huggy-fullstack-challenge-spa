@@ -8,6 +8,8 @@ export const useContactStore = defineStore('contact', () => {
   const currentPage = ref(1);
   const totalPages = ref(1);
 
+  const selectedContact = ref<Contact | null>(null);
+
   const fetchContacts = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1, query: string = '') => {
     try {
       sortField = sortField ? sortField : 'name';
@@ -67,12 +69,18 @@ export const useContactStore = defineStore('contact', () => {
     }
   }
 
+  const setSelectedContact = (contact: Contact) => {
+    selectedContact.value = contact ;
+  };
+
   return {
     contacts,
     currentPage,
     totalPages,
+    selectedContact,
     fetchContacts,
     deleteContact,
     createContact,
+    setSelectedContact,
   };
 });
