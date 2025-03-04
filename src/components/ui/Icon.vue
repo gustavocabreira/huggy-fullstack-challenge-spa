@@ -6,6 +6,7 @@
 import editIcon from '@/assets/icons/edit.svg';
 import deleteIcon from '@/assets/icons/delete.svg';
 import reportIcon from '@/assets/icons/report.svg';
+import closeIcon from '@/assets/icons/close.svg';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -20,6 +21,7 @@ const selectedIcon = computed(() => {
     'edit': editIcon,
     'delete': deleteIcon,
     'report': reportIcon,
+    'close': closeIcon,
   }
 
   return icons[props.icon];

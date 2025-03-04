@@ -82,7 +82,7 @@ const isModalVisible = ref(false);
 
 const createUpdateContact = ref(null);
 
-const emit = defineEmits(['deleteRow']);
+const emit = defineEmits(['deleteRow', 'updateRow']);
 
 const sortBy = async (field: string) => {
   if (!props.items.length || isLoading.value) return;
@@ -118,6 +118,7 @@ const nextPage = async () => {
 };
 
 const editRow = (row: TableRow) => {
+  emit('updateRow', row);
 };
 
 const deleteRow = (row: TableRow) => {

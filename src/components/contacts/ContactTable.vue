@@ -1,6 +1,11 @@
 <template>
-  <Table :columns="tableColumns" :items="tableItems" :getData="getData" :pagination="tablePagination"
-    @deleteRow="deleteContactAction">
+  <Table
+    :columns="tableColumns"
+    :items="tableItems"
+    :getData="getData"
+    :pagination="tablePagination"
+    @deleteRow="deleteContactAction"
+    @updateRow="updateContactAction">
     <template v-slot:name="{ row }">
       <div class="flex items-center gap-4">
         <Avatar :contact="row" />
@@ -10,16 +15,19 @@
   </Table>
 
   <CreateUpdateContact />
+  <ShowContact ref="showContactDialog" :contact="selectedContact" @deleteContact="deleteContactAction" />
 </template>
 
 <script setup lang="ts">
-import Table from '@/components/ui/Table.vue';
-import Avatar from '@/components/ui/Avatar.vue';
 import { onMounted, ref, watch } from 'vue';
 import { type TablePagination, type TableColumn, type TableRow } from '@/types/ui/TableType';
 import { useContactStore } from '@/stores/useContactStore';
 import type { Contact } from '@/types/Contact';
+
+import Table from '@/components/ui/Table.vue';
+import Avatar from '@/components/ui/Avatar.vue';
 import CreateUpdateContact from './CreateUpdateContact.vue';
+import ShowContact from './ShowContact.vue';
 
 const props = defineProps({
   query: {
@@ -27,7 +35,6 @@ const props = defineProps({
     default: '',
   },
 });
-
 
 const tableColumns = ref<TableColumn[]>([
   { name: 'Nome', field: 'name' },
@@ -79,9 +86,16 @@ const deleteContactAction = async (contact: Contact) => {
   try {
     await deleteContact(contact);
   } catch (error) {
-    console.error('Error deleting contact:', error);
     tableItems.value.push(contact);
   }
+};
+
+const showContactDialog = ref(null);
+const selectedContact = ref<Contact | null>(null);
+
+const updateContactAction = async (contact: Contact) => {
+  selectedContact.value = contact;
+  showContactDialog.value?.toggleVisible();
 };
 
 onMounted(async () => {
