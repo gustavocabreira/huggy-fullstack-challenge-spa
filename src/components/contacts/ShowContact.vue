@@ -8,7 +8,7 @@
         </div>
         <div class="flex items-center justify-between gap-4">
           <Icon icon="delete" @click="deleteContact"/>
-          <Icon icon="edit"/>
+          <Icon icon="edit" @click="showUpdateContact"/>
           <Icon icon="close" @click="isDialogVisible = false"/>
         </div>
       </div>
@@ -16,7 +16,8 @@
     <template v-slot:body>
       <div class="flex flex-col gap-4">
         <ContactDetail label="Email" :value="contact.email" />
-        <ContactDetail label="Telefone" :value="contact.cellphone_number" />
+        <ContactDetail label="Telefone" :value="contact.phone_number" />
+        <ContactDetail label="Celular" :value="contact.cellphone_number" />
         <ContactDetail label="CEP" :value="contact.zip_code" />
         <ContactDetail label="Endereço" :value="contact.address" />
         <ContactDetail label="Bairro" :value="contact.district" />
@@ -32,6 +33,9 @@
     :isVisible="isConfirmVisible"
     @update:isVisible="isConfirmVisible = $event"
     @confirm="performDeleteRow" />
+
+  <UpdateContact
+    ref="updateContactDialog"/>
 </template>
 
 <script lang="ts" setup>
@@ -43,14 +47,21 @@ import Avatar from '@/components/ui/Avatar.vue';
 import Icon from '@/components/ui/Icon.vue';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
 import ContactDetail from '@/components/contacts/ContactDetail.vue';
+import UpdateContact from '@/components/contacts/UpdateContact.vue';
 
 const isDialogVisible = ref(false);
-const isConfirmVisible = ref(false); 
+const isConfirmVisible = ref(false);
 
 const emit = defineEmits(['deleteContact']);
 
 const contactsStore = useContactStore();
 const contact: Contact = computed(() => contactsStore.selectedContact);
+
+const updateContactDialog = ref(null);
+
+const showUpdateContact = () => {
+  updateContactDialog?.value?.toggleVisible();
+};
 
 const toggleVisible = () => {
   isDialogVisible.value = !isDialogVisible.value;

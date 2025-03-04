@@ -24,9 +24,16 @@ import { ref, defineEmits } from 'vue';
 import Caption from '@/components/ui/Caption.vue';
 import White from '@/assets/images/white.jpg';
 
+const props = defineProps({
+  defaultPhoto: {
+    type: String,
+    default: White,
+  }
+});
+
 const emit = defineEmits(['update:photo']);
 
-const previewImage = ref(White);
+const previewImage = ref(props.defaultPhoto);
 const errorMessage = ref('');
 
 const handleFileChange = (event: Event) => {

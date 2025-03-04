@@ -35,7 +35,7 @@ export const useContactStore = defineStore('contact', () => {
 
   const createContact = async (contact: Contact) => {
     const formData = new FormData();
-    
+
     formData.append('name', contact.name);
     formData.append('date_of_birth', contact.date_of_birth);
     formData.append('email', contact.email);
@@ -47,7 +47,7 @@ export const useContactStore = defineStore('contact', () => {
     formData.append('state', contact.state);
     formData.append('country', contact.country);
     formData.append('zip_code', contact.zip_code);
-    
+
     if (contact.uploaded_photo) {
       formData.append('photo', contact.uploaded_photo);
     }
@@ -70,8 +70,45 @@ export const useContactStore = defineStore('contact', () => {
   }
 
   const setSelectedContact = (contact: Contact) => {
-    selectedContact.value = contact ;
+    selectedContact.value = contact;
   };
+
+  const findContactById = async (id: number) => {
+    try {
+      const response = await client.get(`contacts/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching contact:', error);
+    }
+  }
+
+  const updateContact = async (contact: Contact) => {
+    const formData = new FormData();
+
+    Object.entries(contact).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
+
+    if (contact.uploaded_photo) {
+      formData.append('photo', contact.uploaded_photo);
+    }
+
+    const response = await client.put(`contacts/${contact.id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    const contactIndex = contacts.value.findIndex(c => c.id === contact.id);
+    
+    if (contactIndex !== -1) {
+      contacts.value[contactIndex] = response.data;
+      setSelectedContact(contacts.value[contactIndex]);
+    }
+  };
+
 
   return {
     contacts,
@@ -82,5 +119,7 @@ export const useContactStore = defineStore('contact', () => {
     deleteContact,
     createContact,
     setSelectedContact,
+    findContactById,
+    updateContact,
   };
 });
