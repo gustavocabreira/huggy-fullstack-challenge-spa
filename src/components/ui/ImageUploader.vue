@@ -20,15 +20,18 @@
       </div>
       <Caption class="mt-2">Enviar Foto</Caption>
     </label>
+    <Button v-if="previewImage != White" @click.prevent="removeImage" class="mt-2">
+      Remover Foto
+    </Button>
     <Caption v-if="errorMessage" class="mt-2 text-red-500">{{ errorMessage }}</Caption>
   </div>
 </template>
-
 
 <script lang="ts" setup>
 import { ref, defineEmits, computed } from 'vue';
 import Caption from '@/components/ui/Caption.vue';
 import White from '@/assets/images/white.jpg';
+import Button from '@/components/ui/Button.vue';
 
 const props = defineProps({
   defaultPhoto: {
@@ -82,6 +85,11 @@ const handleFileChange = (event: Event) => {
     };
     reader.readAsDataURL(file);
   }
+};
+
+const removeImage = () => {
+  previewImage.value = White;
+  emit('update:photo', null);
 };
 
 const initials = computed(() => {
