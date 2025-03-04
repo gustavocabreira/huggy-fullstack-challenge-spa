@@ -1,7 +1,14 @@
 <template>
   <form>
     <div class="flex flex-col space-y-5">
-      <ImageUploader :maxSize="2048" :acceptedMimeTypes="['image/jpeg', 'image/png']" @update:photo="updatePhoto" :defaultPhoto="contact.photo_url" :hasPhoto="!!contact.photo" :text="contact.name" />
+      <ImageUploader
+        :maxSize="2048"
+        :acceptedMimeTypes="['image/jpeg', 'image/png']"
+        @update:photo="updatePhoto"
+        :defaultPhoto="contact.photo_url"
+        :hasPhoto="!!contact.photo"
+        :editing="props.editing"
+        :text="contact.name" />
       <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
         <Input
           label="Nome"
@@ -12,6 +19,7 @@
           placeholder="Nome completo"
           class="w-full md:w-1/2" />
         <Input
+          v-mask="'##/##/####'"
           label="Data de Nascimento"
           type="text"
           id="date_of_birth"
@@ -29,6 +37,7 @@
         class="w-full" />
       <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
         <Input
+          v-mask="'(##) ####-####'"
           label="Telefone"
           type="text"
           id="phone_number"
@@ -37,6 +46,7 @@
           placeholder="Telefone"
           class="w-full md:w-1/2" />
         <Input
+          v-mask="'(##) #####-####'"
           label="Celular"
           type="text"
           id="cellphone_number"
@@ -110,6 +120,10 @@ import type { Contact } from '../../types/Contact';
 import { ref } from 'vue';
 
 const props = defineProps({
+  editing: {
+    type: Boolean,
+    default: true,
+  },
   editingContact: {
     type: Object as () => Contact,
     required: true,
