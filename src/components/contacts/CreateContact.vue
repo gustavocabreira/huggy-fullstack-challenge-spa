@@ -14,7 +14,7 @@ import { ref } from 'vue';
 import type { Contact } from '@/types/Contact';
 import { useContactStore } from '@/stores/useContactStore';
 import Dialog from '@/components/ui/Dialog.vue';
-import { useNotificationStore } from '@/stores/useNotifiactionStore';
+import { useNotificationStore } from '@/stores/useNotificationStore';
 import ContactForm from '@/components/contacts/ContactForm.vue';
 
 const isDialogVisible = ref(false); 

@@ -28,7 +28,7 @@ import Table from '@/components/ui/Table.vue';
 import Avatar from '@/components/ui/Avatar.vue';
 import CreateContact from './CreateContact.vue';
 import ShowContact from './ShowContact.vue';
-import { useNotificationStore } from '@/stores/useNotifiactionStore';
+import { useNotificationStore } from '@/stores/useNotificationStore';
 
 const props = defineProps({
   query: {
