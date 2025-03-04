@@ -50,7 +50,7 @@
       @update:isVisible="isModalVisible = $event"
       @confirm="performDeleteRow"/>
 
-      <CreateUpdateContact ref="createUpdateContact"/>
+      <CreateContact ref="createContact"/>
     </div>
 </template>
 
@@ -61,7 +61,7 @@ import Button from '@/components/ui/Button.vue';
 import Icon from '@/components/ui/Icon.vue';
 import noContactImage from '@/assets/images/no-contact.png';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
-import CreateUpdateContact from '@/components/contacts/CreateUpdateContact.vue'; 
+import CreateContact from '@/components/contacts/CreateContact.vue'; 
 import Caption from '@/components/ui/Caption.vue';
 
 const props = defineProps<{
@@ -80,7 +80,7 @@ const sortOrder = ref('asc');
 const isLoading = ref(false);
 const isModalVisible = ref(false);
 
-const createUpdateContact = ref(null);
+const createContact = ref(null);
 
 const emit = defineEmits(['deleteRow', 'updateRow']);
 
@@ -147,7 +147,7 @@ const performDeleteRow = async () => {
 };
 
 const toggleContactDialog = () => {
-  createUpdateContact?.value?.toggleVisible();
+  createContact?.value?.toggleVisible();
 };
 </script>
 

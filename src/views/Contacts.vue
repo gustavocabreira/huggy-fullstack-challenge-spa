@@ -17,7 +17,7 @@
       </Card>
     </Container>
 
-    <CreateUpdateContact ref="createUpdateContact" />
+    <CreateContact ref="createContact" />
   </div>
 </template>
 
@@ -30,13 +30,13 @@ import Container from '@/components/ui/Container.vue';
 import Table from '@/components/contacts/ContactTable.vue';
 import SearchInput from '@/components/ui/SearchInput.vue';
 import Icon from '@/components/ui/Icon.vue';
-import CreateUpdateContact from '@/components/contacts/CreateUpdateContact.vue';
+import CreateContact from '@/components/contacts/CreateContact.vue';
 
 const searchQuery = ref('');
 
-const createUpdateContact = ref(null);
+const createContact = ref(null);
 
 const toggleContactDialog = () => {
-  createUpdateContact?.value?.toggleVisible();
+  createContact?.value?.toggleVisible();
 };
 </script>

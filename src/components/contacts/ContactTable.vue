@@ -14,7 +14,7 @@
     </template>
   </Table>
 
-  <CreateUpdateContact />
+  <CreateContact />
   <ShowContact ref="showContactDialog" @deleteContact="deleteContactAction" />
 </template>
 
@@ -26,7 +26,7 @@ import type { Contact } from '@/types/Contact';
 
 import Table from '@/components/ui/Table.vue';
 import Avatar from '@/components/ui/Avatar.vue';
-import CreateUpdateContact from './CreateUpdateContact.vue';
+import CreateContact from './CreateContact.vue';
 import ShowContact from './ShowContact.vue';
 import { useNotificationStore } from '@/stores/useNotifiactionStore';
 
