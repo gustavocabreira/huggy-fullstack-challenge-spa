@@ -93,6 +93,8 @@ export const useContactStore = defineStore('contact', () => {
 
     if (contact.uploaded_photo) {
       formData.append('photo', contact.uploaded_photo);
+    } else {
+      formData.delete('photo');
     }
 
     const response = await client.put(`contacts/${contact.id}`, formData, {
