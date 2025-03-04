@@ -76,7 +76,7 @@ const initiateCall = async (phoneNumber: string) => {
     device.register();
 
     const callParams = {
-      to: `+55${props.phoneNumber}`,
+      to: `+55${phoneNumber}`,
       agent: 'Huggy',
       callerId: import.meta.env.VITE_TWILIO_CALLER_ID,
     };
