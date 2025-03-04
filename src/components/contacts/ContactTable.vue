@@ -28,6 +28,7 @@ import Table from '@/components/ui/Table.vue';
 import Avatar from '@/components/ui/Avatar.vue';
 import CreateUpdateContact from './CreateUpdateContact.vue';
 import ShowContact from './ShowContact.vue';
+import { useNotificationStore } from '@/stores/useNotifiactionStore';
 
 const props = defineProps({
   query: {
@@ -53,6 +54,9 @@ const tablePagination = ref<TablePagination>({
 
 const contactStore = useContactStore();
 const { fetchContacts, deleteContact, setSelectedContact } = contactStore;
+
+const notificationStore = useNotificationStore();
+const { addNotification } = notificationStore;
 
 const getData = async (
   sortField: string = 'name',
@@ -90,6 +94,11 @@ const deleteContactAction = async (contact: Contact) => {
 
   try {  
     await deleteContact(contact);
+    addNotification({
+      title: 'Contato excluído',
+      message: 'Contato excluído com sucesso',
+      type: 'SUCCESS',
+    });
   } catch (error) {
     tableItems.value.push(contact);
   }

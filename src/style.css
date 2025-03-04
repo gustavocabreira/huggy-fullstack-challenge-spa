@@ -36,15 +36,15 @@
   --color-alizarin-crimson-10: #FAECE3;
 
   --color-deep-sea-900: #00120b;
-  --color-deep-sea-800: #002F1E;
-  --color-deep-sea-700: #004B30;
+  --color-deep-sea-700: #002F1E;
+  --color-deep-sea-500: #004B30;
   --color-deep-sea-400: #006843;
-  --color-deep-sea-100: #008858;
-  --color-deep-sea-80: #309E77;
-  --color-deep-sea-60: #5EB495;
-  --color-deep-sea-40: #8ECAB4;
-  --color-deep-sea-30: #C1E2D6;
-  --color-deep-sea-10: #F5FAF8;
+  --color-deep-sea-200: #008858;
+  --color-deep-sea-90: #309E77; 
+  --color-deep-sea-70: #5EB495; 
+  --color-deep-sea-50: #8ECAB4; 
+  --color-deep-sea-30: #C1E2D6; 
+  --color-deep-sea-10: #F5FAF8; 
 }
 
 #app {
@@ -94,7 +94,6 @@ input {
   font-weight: 400;
   line-height: 1.125em;
   letter-spacing: 0.25px;
-  color: #262626;
 }
 
 .subtitle2 {
