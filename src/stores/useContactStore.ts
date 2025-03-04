@@ -32,7 +32,29 @@ export const useContactStore = defineStore('contact', () => {
   };
 
   const createContact = async (contact: Contact) => {
-    const response = await client.post('contacts', contact);
+    const formData = new FormData();
+    
+    formData.append('name', contact.name);
+    formData.append('date_of_birth', contact.date_of_birth);
+    formData.append('email', contact.email);
+    formData.append('cellphone_number', contact.cellphone_number);
+    formData.append('phone_number', contact.phone_number);
+    formData.append('address', contact.address);
+    formData.append('district', contact.district);
+    formData.append('city', contact.city);
+    formData.append('state', contact.state);
+    formData.append('country', contact.country);
+    formData.append('zip_code', contact.zip_code);
+    
+    if (contact.uploaded_photo) {
+      formData.append('photo', contact.uploaded_photo);
+    }
+
+    const response = await client.post('contacts', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    });
     contacts.value.push(response.data);
   }
 

@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
-    <div v-if="isVisible" class="modal-overlay p-4 md:p-0" @click.self="closeModal">
-      <div class="modal-content border border-mine-shaft-30 max-h-[90vh] overflow-y-auto">
+    <div v-if="isVisible" class="fixed inset-0 flex items-center justify-center p-4 dialog" @click.self="closeModal">
+      <div class="modal-content bg-white rounded-lg border border-mine-shaft-30 max-w-[910px] min-w-[450px] max-h-[90vh] overflow-y-auto">
         <div class="border-b border-mine-shaft-30 p-6">
           <slot name="header"></slot>
         </div>
@@ -42,28 +42,9 @@ const confirmAction = () => {
 </script>
 
 <style lang="scss" scoped>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
 
-.modal-content {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 1px 2px 0px #00000026;
-  position: relative;
-  max-width: 610px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
+.dialog {
+  background-color: rgb(0,0,0,0.35)
 }
 
 .fade-enter-active,

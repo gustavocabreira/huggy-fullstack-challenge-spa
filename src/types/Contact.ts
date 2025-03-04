@@ -12,4 +12,5 @@ export interface Contact {
   country: string | null;
   zip_code: string | null;
   photo: string | null;
+  uploaded_photo: string | null;
 }

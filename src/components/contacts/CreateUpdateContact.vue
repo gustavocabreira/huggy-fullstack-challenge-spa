@@ -6,6 +6,7 @@
     <template v-slot:body>
       <form>
         <div class="flex flex-col space-y-5">
+          <ImageUploader :maxSize="2048" :acceptedMimeTypes="['image/jpeg', 'image/png']" @update:photo="updatePhoto" />
           <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
             <Input
               label="Nome"
@@ -116,6 +117,7 @@ import type { Contact } from '@/types/Contact';
 import { useContactStore } from '@/stores/useContactStore';
 import Input from '@/components/ui/Input.vue';
 import Dialog from '@/components/ui/Dialog.vue';
+import ImageUploader from '@/components/ui/ImageUploader.vue';
 
 const isDialogVisible = ref(false);
 
@@ -135,7 +137,8 @@ const contact = ref<Contact>({
   state: '',
   country: '',
   zip_code: '',
-  photo: '',
+  photo: null,
+  uploaded_photo: null,
 });
 
 const errors = ref({});
@@ -144,6 +147,7 @@ const clearForm = () => {
   contact.value = {
     id: 0,
     name: '',
+    date_of_birth: '',
     email: '',
     cellphone_number: '',
     phone_number: '',
@@ -153,22 +157,26 @@ const clearForm = () => {
     state: '',
     country: '',
     zip_code: '',
-    photo: '',
+    photo: null,
+    uploaded_photo: null,
   };
 
-  errors.value = [];
+  errors.value = {};
 };
 
 const storeContact = async () => {
   try {
     await createContact(contact.value);
     clearForm();
-
     isDialogVisible.value = false;
   } catch (error) {
-    errors.value = error.response.data.errors;
     console.error('Error storing contact:', error);
+    errors.value = error.response.data.errors;
   }
+};
+
+const updatePhoto = (file) => {
+  contact.value.uploaded_photo = file;
 };
 
 const toggleVisible = () => {
