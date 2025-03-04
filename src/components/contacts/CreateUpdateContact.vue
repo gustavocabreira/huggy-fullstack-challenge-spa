@@ -118,6 +118,7 @@ import { useContactStore } from '@/stores/useContactStore';
 import Input from '@/components/ui/Input.vue';
 import Dialog from '@/components/ui/Dialog.vue';
 import ImageUploader from '@/components/ui/ImageUploader.vue';
+import { useNotificationStore } from '@/stores/useNotifiactionStore';
 
 const isDialogVisible = ref(false); 
 const errors = ref({}); 
@@ -125,6 +126,9 @@ const contact = ref<Contact>(initializeContact());
 
 const contactStore = useContactStore();
 const { createContact } = contactStore; 
+
+const notificationStore = useNotificationStore();
+const { addNotification } = notificationStore;
 
 function initializeContact(): Contact {
   return {
@@ -153,6 +157,12 @@ const clearForm = () => {
 const storeContact = async () => {
   try {
     await createContact(contact.value); 
+    addNotification({
+      title: 'Contato adicionado',
+      message: 'Contato adicionado com sucesso',
+      type: 'SUCCESS',
+    });
+
     clearForm(); 
     isDialogVisible.value = false; 
   } catch (error) {

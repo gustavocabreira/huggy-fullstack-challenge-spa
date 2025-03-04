@@ -40,7 +40,7 @@ const props = defineProps({
     default: '',
   },
   hasPhoto: {
-    type: String,
+    type: Boolean,
     default: false,
   }
 });

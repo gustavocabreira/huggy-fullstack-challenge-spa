@@ -15,17 +15,26 @@ import { useContactStore } from '@/stores/useContactStore';
 
 import Dialog from '@/components/ui/Dialog.vue';
 import ContactForm from '@/components/contacts/ContactForm.vue';
+import { useNotificationStore } from '@/stores/useNotifiactionStore';
 
 const isDialogVisible = ref(false);
 
 const contactStore = useContactStore();
-
 const contact = computed(() => contactStore.selectedContact);
+
+const notificationStore = useNotificationStore();
+const { addNotification } = notificationStore;
+
 const errors = ref({});
 
 const updateContact = async () => {
   try {
     await contactStore.updateContact(contact.value);
+    addNotification({
+      title: 'Contato atualizado',
+      message: 'Contato atualizado com sucesso',
+      type: 'SUCCESS',
+    });
     isDialogVisible.value = false;
   } catch (error) {
     errors.value = error.response?.data?.errors || {};
