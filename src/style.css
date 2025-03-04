@@ -82,16 +82,9 @@ h2 {
   color: white;
 }
 
-.container {
-  border: 1px solid #E1E1E1;
-  border-radius: 16px;
-  margin-top: 16px;
-}
-
 input {
   width: 250px;
   height: 36px;
-  border: 1px solid #E1E1E1;
   border-radius: 8px;
   font-family: Roboto;
 }
@@ -102,14 +95,6 @@ input {
   line-height: 1.125em;
   letter-spacing: 0.25px;
   color: #262626;
-}
-
-.caption {
-  font-weight: 500;
-  font-size: 0.75em;
-  line-height: 1em;
-  letter-spacing: 0.4px;
-  color: #505050;
 }
 
 .subtitle2 {

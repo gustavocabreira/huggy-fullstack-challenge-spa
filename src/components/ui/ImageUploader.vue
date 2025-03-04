@@ -1,0 +1,61 @@
+<template>
+  <div class="flex flex-col items-center">
+    <label class="flex flex-col items-center cursor-pointer">
+      <div class="relative group">
+        <img
+          :src="previewImage"
+          alt="Preview"
+          class="w-32 h-32 rounded-full border-2 border-mine-shaft-30 object-cover" />
+        <div class="absolute inset-0 bg-mine-shaft-30 opacity-0 group-hover:opacity-30 transition-opacity duration-100 rounded-full"></div>
+        <input
+          type="file"
+          accept="image/*"
+          @change="handleFileChange"
+          class="absolute inset-0 opacity-0 cursor-pointer" />
+      </div>
+      <Caption class="mt-2">Enviar Foto</Caption>
+    </label>
+    <Caption v-if="errorMessage" class="mt-2 text-red-500">{{ errorMessage }}</Caption>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref, defineEmits } from 'vue';
+import Caption from '@/components/ui/Caption.vue';
+import White from '@/assets/images/white.jpg';
+
+const emit = defineEmits(['update:photo']);
+
+const previewImage = ref(White);
+const errorMessage = ref('');
+
+const handleFileChange = (event: Event) => {
+  const fileInput = event.target as HTMLInputElement;
+  const file = fileInput.files?.[0];
+
+  if (file) {
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      errorMessage.value = 'Tipo de arquivo inválido. Use JPEG ou PNG.';
+      previewImage.value = White;
+      emit('update:photo', null);
+      return;
+    }
+
+    if (file.size / 1024 > 2048) {
+      errorMessage.value = 'O tamanho da imagem é maior que 2048 KB (2 MB).';
+      previewImage.value = White;
+      emit('update:photo', null);
+      return;
+    }
+
+    errorMessage.value = '';
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      previewImage.value = e.target?.result as string;
+      emit('update:photo', file);
+    };
+    reader.readAsDataURL(file);
+  }
+};
+</script>
