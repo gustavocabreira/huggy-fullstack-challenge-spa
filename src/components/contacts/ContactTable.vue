@@ -86,14 +86,11 @@ watch(() => props.query, (newQuery) => {
 });
 
 const deleteContactAction = async (contact: Contact) => {
-
   tableItems.value = tableItems.value.filter((c) => c.id !== contact.id);
 
-  try {
-  
+  try {  
     await deleteContact(contact);
   } catch (error) {
-  
     tableItems.value.push(contact);
   }
 };

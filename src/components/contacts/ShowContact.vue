@@ -62,7 +62,7 @@ const deleteContact = () => {
 
 const performDeleteRow = async () => {
   isDialogVisible.value = false;
-  emit('deleteContact', contact);
+  emit('deleteContact', contactsStore.selectedContact);
 };
 
 defineExpose({
