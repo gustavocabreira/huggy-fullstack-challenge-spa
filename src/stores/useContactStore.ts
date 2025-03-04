@@ -39,8 +39,8 @@ export const useContactStore = defineStore('contact', () => {
     const formattedContact = {
       ...contact,
       date_of_birth: contact.date_of_birth.split('/').reverse().join('-'),
-      cellphone_number: contact.cellphone_number.replace(/\D/g, ''),
-      phone_number: contact.phone_number.replace(/\D/g, ''),
+      cellphone_number: contact.cellphone_number?.replace(/\D/g, ''),
+      phone_number: contact.phone_number?.replace(/\D/g, ''),
     };
 
     Object.entries(formattedContact).forEach(([key, value]) => {
@@ -84,14 +84,13 @@ export const useContactStore = defineStore('contact', () => {
   }
 
   const updateContact = async (contact: Contact) => {
-    console.log('oii')
     const formData = new FormData();
 
     const formattedContact = {
       ...contact,
       date_of_birth: contact.date_of_birth.split('/').reverse().join('-'),
-      cellphone_number: contact.cellphone_number.replace(/\D/g, ''),
-      phone_number: contact.phone_number.replace(/\D/g, ''),
+      cellphone_number: contact.cellphone_number?.replace(/\D/g, ''),
+      phone_number: contact.phone_number?.replace(/\D/g, ''),
     };
 
     Object.entries(formattedContact).forEach(([key, value]) => {
