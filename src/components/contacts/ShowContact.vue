@@ -16,8 +16,14 @@
     <template v-slot:body>
       <div class="flex flex-col gap-4">
         <ContactDetail label="Email" :value="contact.email" />
-        <ContactDetail label="Telefone" :value="contact.phone_number" />
-        <ContactDetail label="Celular" :value="contact.cellphone_number" />
+        <div class="flex items-center justify-between gap-4">
+          <ContactDetail label="Telefone" :value="contact.phone_number" />
+          <MakeCall v-if="!!contact.phone_number" :phoneNumber="contact.phone_number" label="Ligar para Telefone" />
+        </div>
+        <div class="flex items-center justify-between gap-4">
+          <ContactDetail label="Celular" :value="contact.cellphone_number" />
+          <MakeCall v-if="!!contact.cellphone_number" :phoneNumber="contact.cellphone_number" label="Ligar para Celular" />
+        </div>
         <ContactDetail label="CEP" :value="contact.zip_code" />
         <ContactDetail label="Endereço" :value="contact.address" />
         <ContactDetail label="Bairro" :value="contact.district" />
@@ -48,6 +54,8 @@ import Icon from '@/components/ui/Icon.vue';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
 import ContactDetail from '@/components/contacts/ContactDetail.vue';
 import UpdateContact from '@/components/contacts/UpdateContact.vue';
+import Button from '@/components/ui/Button.vue';
+import MakeCall from '@/components/contacts/MakeCall.vue';
 
 const isDialogVisible = ref(false);
 const isConfirmVisible = ref(false);
@@ -75,6 +83,10 @@ const performDeleteRow = async () => {
   isDialogVisible.value = false;
   emit('deleteContact', contactsStore.selectedContact);
 };
+
+const makeCall = (phoneNumber: string) => {
+  console.log('makeCall', phoneNumber);
+}
 
 defineExpose({
   toggleVisible,

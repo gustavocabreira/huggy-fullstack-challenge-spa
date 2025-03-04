@@ -11,7 +11,7 @@
 import { computed, onBeforeMount } from "vue";
 import { useUserStore } from '@/stores/useUserStore';
 import Toastr from "@/components/ui/Toastr.vue";
-import { useNotificationStore } from "../../stores/useNotificationStore";
+import { useNotificationStore } from "@/stores/useNotificationStore";
 
 const notificationStore = useNotificationStore();
 const notifications = computed(() => notificationStore.notifications);
