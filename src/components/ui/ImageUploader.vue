@@ -1,16 +1,21 @@
 <template>
   <div class="flex flex-col items-center">
     <label class="flex flex-col items-center cursor-pointer">
-      <div class="relative group">
+      <div class="avatar relative group rounded-full" :class="{ 'w-32 h-32': !hasPhoto && text }">
         <img
+          v-if="hasPhoto || (!hasPhoto && !text)"  
           :src="previewImage"
           alt="Preview"
           class="w-32 h-32 rounded-full border-2 border-mine-shaft-30 object-cover" />
-        <div class="absolute inset-0 bg-mine-shaft-30 opacity-0 group-hover:opacity-30 transition-opacity duration-100 rounded-full"></div>
-        <input
-          type="file"
-          accept="image/*"
-          @change="handleFileChange"
+        <span
+          v-else
+          class="flex items-center justify-center w-full h-full font-semibold text-4xl">
+          {{ initials }}
+        </span>
+        <div
+          class="absolute inset-0 bg-mine-shaft-30 opacity-0 group-hover:opacity-30 transition-opacity duration-100 rounded-full">
+        </div>
+        <input type="file" accept="image/*" @change="handleFileChange"
           class="absolute inset-0 opacity-0 cursor-pointer" />
       </div>
       <Caption class="mt-2">Enviar Foto</Caption>
@@ -19,21 +24,30 @@
   </div>
 </template>
 
+
 <script lang="ts" setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, computed } from 'vue';
 import Caption from '@/components/ui/Caption.vue';
 import White from '@/assets/images/white.jpg';
 
 const props = defineProps({
   defaultPhoto: {
     type: String,
-    default: White,
+    default: null,
+  },
+  text: {
+    type: String,
+    default: '',
+  },
+  hasPhoto: {
+    type: String,
+    default: false,
   }
 });
 
 const emit = defineEmits(['update:photo']);
 
-const previewImage = ref(props.defaultPhoto);
+const previewImage = ref(props.defaultPhoto ?? White);
 const errorMessage = ref('');
 
 const handleFileChange = (event: Event) => {
@@ -65,4 +79,18 @@ const handleFileChange = (event: Event) => {
     reader.readAsDataURL(file);
   }
 };
+
+const initials = computed(() => {
+  const names = props.text.split(' ');
+  const firstInitial = names[0]?.charAt(0).toUpperCase() || '';
+  const secondInitial = names[1]?.charAt(0).toUpperCase() || '';
+  return `${firstInitial}${secondInitial}`;
+});
 </script>
+
+<style lang="scss">
+.avatar {
+  background-color: #F8F7FD;
+  color: #180D6E;
+}
+</style>

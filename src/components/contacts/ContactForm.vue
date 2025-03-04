@@ -1,7 +1,7 @@
 <template>
   <form>
     <div class="flex flex-col space-y-5">
-      <ImageUploader :maxSize="2048" :acceptedMimeTypes="['image/jpeg', 'image/png']" @update:photo="updatePhoto" :defaultPhoto="contact.photo_url" />
+      <ImageUploader :maxSize="2048" :acceptedMimeTypes="['image/jpeg', 'image/png']" @update:photo="updatePhoto" :defaultPhoto="contact.photo_url" :hasPhoto="!!contact.photo" :text="contact.name" />
       <div class="flex flex-col md:flex-row gap-2 space-y-5 md:space-y-0">
         <Input
           label="Nome"
