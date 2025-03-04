@@ -15,7 +15,7 @@
   </Table>
 
   <CreateUpdateContact />
-  <ShowContact ref="showContactDialog" :contact="selectedContact" @deleteContact="deleteContactAction" />
+  <ShowContact ref="showContactDialog" @deleteContact="deleteContactAction" />
 </template>
 
 <script setup lang="ts">
@@ -54,16 +54,21 @@ const tablePagination = ref<TablePagination>({
 const contactStore = useContactStore();
 const { fetchContacts, deleteContact, setSelectedContact } = contactStore;
 
-const getData = async (sortField: string = 'name', sortOrder: string = 'asc', page: number = 1, query: string = '') => {
+const getData = async (
+  sortField: string = 'name',
+  sortOrder: string = 'asc',
+  page: number = 1,
+  query: string = ''
+) => {
   try {
     await fetchContacts(sortField, sortOrder, page, query);
-    setData();
+    updateTableData();
   } catch (err) {
     console.error('Error fetching contacts:', err);
   }
 };
 
-const setData = () => {
+const updateTableData = () => {
   const { contacts, currentPage, totalPages } = contactStore;
 
   tablePagination.value = {
@@ -81,11 +86,14 @@ watch(() => props.query, (newQuery) => {
 });
 
 const deleteContactAction = async (contact: Contact) => {
-  tableItems.value = tableItems.value.filter(c => c.id !== contact.id);
+
+  tableItems.value = tableItems.value.filter((c) => c.id !== contact.id);
 
   try {
+  
     await deleteContact(contact);
   } catch (error) {
+  
     tableItems.value.push(contact);
   }
 };
@@ -101,6 +109,6 @@ const updateContactAction = async (contact: Contact) => {
 
 onMounted(async () => {
   await fetchContacts();
-  setData();
+  updateTableData();
 });
 </script>
