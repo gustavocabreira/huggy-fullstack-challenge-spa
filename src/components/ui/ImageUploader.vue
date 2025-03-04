@@ -3,7 +3,7 @@
     <label class="flex flex-col items-center cursor-pointer">
       <div class="avatar relative group rounded-full" :class="{ 'w-32 h-32': !hasPhoto && text }">
         <img
-          v-if="hasPhoto || (!hasPhoto && !text)"  
+          v-if="hasPhoto || (!hasPhoto && !text) || !editing"  
           :src="previewImage"
           alt="Preview"
           class="w-32 h-32 rounded-full border-2 border-mine-shaft-30 object-cover" />
@@ -42,6 +42,10 @@ const props = defineProps({
   hasPhoto: {
     type: Boolean,
     default: false,
+  },
+  editing: {
+    type: Boolean,
+    required: true,
   }
 });
 

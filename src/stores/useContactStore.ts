@@ -36,17 +36,18 @@ export const useContactStore = defineStore('contact', () => {
   const createContact = async (contact: Contact) => {
     const formData = new FormData();
 
-    formData.append('name', contact.name);
-    formData.append('date_of_birth', contact.date_of_birth);
-    formData.append('email', contact.email);
-    formData.append('cellphone_number', contact.cellphone_number);
-    formData.append('phone_number', contact.phone_number);
-    formData.append('address', contact.address);
-    formData.append('district', contact.district);
-    formData.append('city', contact.city);
-    formData.append('state', contact.state);
-    formData.append('country', contact.country);
-    formData.append('zip_code', contact.zip_code);
+    const formattedContact = {
+      ...contact,
+      date_of_birth: contact.date_of_birth.split('/').reverse().join('-'),
+      cellphone_number: contact.cellphone_number.replace(/\D/g, ''),
+      phone_number: contact.phone_number.replace(/\D/g, ''),
+    };
+
+    Object.entries(formattedContact).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && key !== 'uploaded_photo') {
+        formData.append(key, value as string);
+      }
+    });
 
     if (contact.uploaded_photo) {
       formData.append('photo', contact.uploaded_photo);
@@ -83,11 +84,19 @@ export const useContactStore = defineStore('contact', () => {
   }
 
   const updateContact = async (contact: Contact) => {
+    console.log('oii')
     const formData = new FormData();
 
-    Object.entries(contact).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
-        formData.append(key, value);
+    const formattedContact = {
+      ...contact,
+      date_of_birth: contact.date_of_birth.split('/').reverse().join('-'),
+      cellphone_number: contact.cellphone_number.replace(/\D/g, ''),
+      phone_number: contact.phone_number.replace(/\D/g, ''),
+    };
+
+    Object.entries(formattedContact).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && key !== 'uploaded_photo') {
+        formData.append(key, value as string);
       }
     });
 
