@@ -67,8 +67,8 @@ const chartOptions = {
       breakpoint: 1024,
       options: {
         chart: {
-          width: 350,
-          height: 350,
+          width: 406,
+          height: 406,
         },
         legend: {
           position: 'bottom',
