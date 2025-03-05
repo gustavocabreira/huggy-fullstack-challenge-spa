@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import type { Contact } from '@/types/Contact';
 import { useContactStore } from '@/stores/useContactStore';
 import Dialog from '@/components/ui/Dialog.vue';
@@ -26,6 +26,8 @@ const { createContact } = contactStore;
 
 const notificationStore = useNotificationStore();
 const { addNotification } = notificationStore;
+
+const emit = defineEmits(['created']);
 
 function initializeContact(): Contact {
   return {
@@ -62,6 +64,7 @@ const storeContact = async () => {
 
     clearForm(); 
     isDialogVisible.value = false; 
+    emit('created');
   } catch (error) {
     console.error('Error storing contact:', error);
     errors.value = error.response?.data?.errors || {}; 
