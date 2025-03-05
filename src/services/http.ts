@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '@/router';
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL + '/api',
@@ -6,16 +7,20 @@ const client = axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: true,
+  withXSRFToken: true,
 });
 
-client.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem('access_token')?.replaceAll(`"`, '');
+client.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      router.push({ name: 'Login' });
+    }
 
-  if (localStorage.getItem('access_token')) {
-    config.headers.Authorization = `Bearer ${accessToken}`
+    return Promise.reject(error);
   }
-
-  return config;
-});
+);
 
 export default client;

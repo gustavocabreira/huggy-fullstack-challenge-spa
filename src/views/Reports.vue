@@ -1,38 +1,31 @@
 <template>
-  <div class="mx-auto flex flex-col items-center min-h-screen overflow-x-hidden">
-    <Container class="w-full">
-      <header class="py-4 w-full flex items-center">
-        <h2>{{ route.meta.title }}</h2>
-      </header>
-      <Card class="rounded-lg overflow-x-hidden w-full">
-        <div class="flex items-center justify-between gap-8 p-4">
-          <router-link :to="{ name: 'Contacts' }" class="flex items-center">
-            <Icon icon="go-back"></Icon><Button>Voltar</Button>
-          </router-link>
-        </div>
-        <div class="flex flex-col gap-12 md:gap-4 p-9">
-          <div id="by-state" class="w-full md:w-1/2 min-h-[380px]">
-            <p class="subtitle2 mb-8">Segmentação por estado</p>
-             <PieSkeleton v-if="!stateSeries.length" :display="!stateSeries.length" />
-            <PieChart v-else :labels="stateLabels" :series="stateSeries" />
-          </div>
-          <div id="by-city" class="w-full md:w-1/2 min-h-[380px]">
-            <p class="subtitle2 mb-8">Segmentação por cidade</p>
-            <PieSkeleton v-if="!citySeries.length" :display="!citySeries.length" />
-            <PieChart v-else :labels="cityLabels" :series="citySeries" />
-          </div>
-        </div>
-      </Card>
-    </Container>
-  </div>
-</template>
+  <Card class="rounded-lg overflow-x-hidden w-full">
+    <div class="flex items-center justify-between gap-8 p-4">
+      <router-link :to="{ name: 'Contacts' }" class="flex items-center">
+        <Icon icon="go-back"></Icon><Button>Voltar</Button>
+      </router-link>
+    </div>
+    <div class="flex flex-col gap-12 md:gap-4 p-9">
+      <div id="by-state" class="w-full md:w-1/2 min-h-[380px]">
+        <p class="subtitle2 mb-8">Segmentação por estado</p>
+        <PieSkeleton v-if="!stateSeries.length" :display="!stateSeries.length" />
+        <PieChart v-else :labels="stateLabels" :series="stateSeries" />
+      </div>
+      <div id="by-city" class="w-full md:w-1/2 min-h-[380px]">
+        <p class="subtitle2 mb-8">Segmentação por cidade</p>
+        <PieSkeleton v-if="!citySeries.length" :display="!citySeries.length" />
+        <PieChart v-else :labels="cityLabels" :series="citySeries" />
+      </div>
+    </div>
 
+
+  </Card>
+</template>
 
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import Container from '@/components/ui/Container.vue';
 import Card from '@/components/ui/Card.vue';
 import Button from '@/components/ui/Button.vue';
 import Icon from '@/components/ui/Icon.vue';

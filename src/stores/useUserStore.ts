@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import type { User } from '@/types/User';
 import client from '@/services/http';
-import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export const useUserStore = defineStore('user', () => {
   const router = useRouter();
@@ -10,33 +11,28 @@ export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null);
   const isAuthenticated = computed(() => !!user.value);
 
-  function setUser(userData: User, accessToken: string) {
+  const setUser = (userData: User) => {
     user.value = userData;
-    localStorage.setItem('access_token', JSON.stringify(accessToken));
   }
 
-  async function logout() {
+  const logout = async () => {
     user.value = null;
-    await localStorage.removeItem('access_token');
+    await axios.get(`${import.meta.env.VITE_API_URL}/sanctum/csrf-cookie`);
+    await client.post('logout')
     router.push({
       name: 'Login',
     });
   }
 
-  function getUser() {
-    const accessToken = localStorage.getItem('access_token')?.replaceAll(`"`, '');
+  const getUser = () => {
 
-    client.get('me', {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
-    })
-    .then(response => {
-      setUser(response.data, accessToken as string);
-    })
-    .catch(error => {
-      logout();
-    })
+    client.get('me')
+      .then(response => {
+        setUser(response.data);
+      })
+      .catch(error => {
+        logout();
+      })
   }
 
   return { user, isAuthenticated, setUser, logout, getUser };

@@ -10,35 +10,31 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '@/stores/useUserStore';
 import client from '@/services/http';
 import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '@/components/ui/Button.vue';
+import axios from 'axios';
 
-const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
-const login = (accessToken: string) => {
-  client.get('me', {
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  }).then(response => {
-    userStore.setUser(response.data, accessToken);
-    router.push({
-      name: 'Contacts',
-    })
-  }).then(error => {
-    alert(error.response.data.message);
-  })
-};
-
 onMounted(() => {
-  if (route.query.access_token) {
-    login(route.query.access_token as string);
-  }
+  axios.get(import.meta.env.VITE_API_URL + '/sanctum/csrf-cookie', {
+    withCredentials: true,
+    withXSRFToken: true,
+  }).then(() => {
+    if (route.query.access_token) {
+      client.get('me', {
+        withCredentials: true,
+        withXSRFToken: true,
+      }).then(() =>
+        router.push({
+          name: 'Contacts',
+        })
+      )
+    }
+  })
 });
 
 const authUrl = computed(() => `${import.meta.env.VITE_API_URL}/auth/huggy/redirect`);

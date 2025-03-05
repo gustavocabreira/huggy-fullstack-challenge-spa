@@ -60,7 +60,7 @@ const chartOptions = {
       letterSpacing: '0.4px',
       color: '#757575',
     },
-    width: 380,
+    width: 250,
   },
   responsive: [
     {
