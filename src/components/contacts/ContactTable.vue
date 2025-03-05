@@ -14,7 +14,7 @@
     </template>
   </Table>
 
-  <CreateContact />
+  <CreateContact @created="addContact" />
   <ShowContact ref="showContactDialog" @deleteContact="deleteContactAction" />
 </template>
 
@@ -53,7 +53,7 @@ const tablePagination = ref<TablePagination>({
 });
 
 const contactStore = useContactStore();
-const { fetchContacts, deleteContact, setSelectedContact } = contactStore;
+const { fetchContacts, deleteContact, setSelectedContact, addContact } = contactStore;
 
 const notificationStore = useNotificationStore();
 const { addNotification } = notificationStore;

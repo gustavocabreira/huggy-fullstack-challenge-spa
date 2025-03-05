@@ -119,6 +119,10 @@ export const useContactStore = defineStore('contact', () => {
     }
   };
 
+  const addContact = (contact: Contact) => {
+    contacts.value.push(contact);
+  }
+
 
   return {
     contacts,
@@ -131,5 +135,6 @@ export const useContactStore = defineStore('contact', () => {
     setSelectedContact,
     findContactById,
     updateContact,
+    addContact,
   };
 });

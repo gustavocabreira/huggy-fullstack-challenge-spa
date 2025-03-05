@@ -64,7 +64,7 @@ const storeContact = async () => {
 
     clearForm(); 
     isDialogVisible.value = false; 
-    emit('created');
+    emit('created', contact.value);
   } catch (error) {
     console.error('Error storing contact:', error);
     errors.value = error.response?.data?.errors || {}; 

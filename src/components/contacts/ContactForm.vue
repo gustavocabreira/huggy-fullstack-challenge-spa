@@ -24,6 +24,7 @@
           type="text"
           id="date_of_birth"
           v-model="contact.date_of_birth"
+          :error="errors['date_of_birth']"
           placeholder="Data de Nascimento"
           class="w-full md:w-1/2" />
       </div>
