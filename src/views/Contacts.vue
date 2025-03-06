@@ -1,5 +1,5 @@
 <template>
-  <Card class="rounded-lg overflow-x-hidden">
+  <Card class="rounded-lg">
     <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 p-4">
       <SearchInput class="w-full md:w-1/3" v-model="searchQuery" />
       <div class="flex items-center justify-between md:justify-end gap-8 w-full">
@@ -10,7 +10,9 @@
       </div>
     </div>
 
-    <ContactTable ref="table" :query="searchQuery" />
+    <div class="overflow-x-auto">
+      <ContactTable ref="table" :query="searchQuery"/>
+    </div>
   </Card>
 
   <CreateContact ref="createContact" />

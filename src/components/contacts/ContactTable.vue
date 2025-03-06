@@ -5,7 +5,8 @@
     :getData="getData"
     :pagination="tablePagination"
     @deleteRow="deleteContactAction"
-    @updateRow="updateContactAction">
+    @updateRow="updateContactAction"
+    class="min-w-3xl">
     <template v-slot:name="{ row }">
       <div class="flex items-center gap-4">
         <Avatar :contact="row" />
