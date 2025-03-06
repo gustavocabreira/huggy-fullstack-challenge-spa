@@ -16,6 +16,14 @@
         Baixar payload
       </Button>
     </template>
+    <template v-slot:response="{ row }">
+      <Button v-if="row.response" 
+        @click="downloadFile(row.response)" 
+        color="primary">
+        Baixar resposta
+      </Button>
+      <span v-else>-</span>
+    </template>
   </Table>
 </template>
 
@@ -34,6 +42,7 @@ const tableColumns: TableColumn[] = [
   { name: 'Evento', field: 'event' },
   { name: 'Status', field: 'status' },
   { name: 'Payload', field: 'payload' },
+  { name: 'Resposta', field: 'response' },
 ];
 
 const tablePagination = ref<TablePagination>({
