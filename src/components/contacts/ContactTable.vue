@@ -16,13 +16,7 @@
     </template>
   </Table>
 
-  <div v-if="!contacts.length" class="empty-state">
-    <img :src="noContactImage" alt="No Contacts" />
-    <span class="body-2 text-gray-500 font-normal">Ainda não há contatos</span>
-    <Button class="mt-4" icon="add" color="primary" @click="toggleContactDialog">
-      Adicionar contato
-    </Button>
-  </div>
+  <NoContact v-if="!contacts.length"/>
 
   <CreateContact ref="createContact"/>
   <ShowContact ref="showContactDialog" @deleteContact="deleteContactAction" />
@@ -47,8 +41,7 @@ import Avatar from '@/components/ui/Avatar.vue';
 import CreateContact from './CreateContact.vue';
 import ShowContact from './ShowContact.vue';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
-import Button from '@/components/ui/Button.vue';
-import noContactImage from '@/assets/images/no-contact.png';
+import NoContact from '@/components/contacts/NoContact.vue';
 
 const props = defineProps({
   query: { type: String, default: '' },
@@ -57,7 +50,7 @@ const props = defineProps({
 const contactStore = useContactStore();
 const notificationStore = useNotificationStore();
 
-const { fetchContacts, deleteContact, setSelectedContact, addContact } = contactStore;
+const { fetchContacts, deleteContact, setSelectedContact } = contactStore;
 const { addNotification } = notificationStore;
 
 const contacts = computed(() => contactStore.contacts);
