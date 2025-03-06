@@ -6,6 +6,9 @@
     :pagination="tablePagination"
     :class="{'min-w-3xl': tableItems.length > 0}"
   >
+    <template v-slot:updated_at="{ row }">
+      {{ formatDate(row.created_at) }}
+    </template>
     <template v-slot:payload="{ row }">
       <Button 
         @click="downloadFile(row.payload)" 
@@ -18,12 +21,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import Table from '@/components/ui/Table.vue';
-import Button from '@/components/ui/Button.vue';
 import { TableColumn, TablePagination } from '@/types/ui/TableType';
 import { useWebhookLogsStore } from '@/stores/useWebhookLogsStore';
 
+import Table from '@/components/ui/Table.vue';
+import Button from '@/components/ui/Button.vue';
+import formatDate from '@/services/formatDate';
+
 const tableColumns: TableColumn[] = [
+  { name: 'Ultima atualização', field: 'updated_at' },
   { name: 'Para', field: 'to' },
   { name: 'Evento', field: 'event' },
   { name: 'Status', field: 'status' },
@@ -41,16 +47,7 @@ const tableItems = computed(() => webhooksStore.webhooks);
 
 const getData = async (sortField = 'id', sortOrder = 'desc', page = 1, query = '') => {
   await webhooksStore.fetchWebhooks(sortField, sortOrder, page, query);
-  //updateTableData();
 };
-
-// const updateTableData = () => {
-//   tablePagination.value = {
-//     current_page: webhooksStore.currentPage,
-//     last_page: webhooksStore.totalPages,
-//     total: webhooksStore.webhooks?.length || 0,
-//   };
-// };
 
 const downloadFile = (payload: any) => {
   const payloadString = JSON.stringify(payload, null, 2);
