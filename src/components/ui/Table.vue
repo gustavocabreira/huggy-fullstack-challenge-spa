@@ -2,7 +2,7 @@
   <div class="w-full">
     <div class="flex px-6 py-4 border-b border-gray-200">
       <Caption v-for="(column, index) in columns" :key="index" :class="[ 
-        column.field === index ? 'flex-none w-24' : 'flex-1', 
+        column.field === 'actions' ? 'flex-none w-24' : 'flex-1', 
         'text-left cursor-pointer' 
       ]" @click="sortBy(column.field)">
         {{ column.name }} <span v-if="sortField === column.field">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
