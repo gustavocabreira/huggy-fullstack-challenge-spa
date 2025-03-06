@@ -4,56 +4,64 @@
     :items="tableItems"
     :getData="getData"
     :pagination="tablePagination"
-    :class="{'min-w-3xl': tableItems?.value?.length}" 
+    :class="{'min-w-3xl': tableItems.length > 0}"
   >
-  <template v-slot:payload="{row}">
-    {{ row.payload }}
-  </template>
+    <template v-slot:payload="{ row }">
+      <Button 
+        @click="downloadFile(row.payload)" 
+        color="primary">
+        Baixar payload
+      </Button>
+    </template>
   </Table>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import Table from '@/components/ui/Table.vue';
-import { TableColumn } from '@/types/ui/TableType';
-import { TablePagination } from '@/types/ui/TableType';
+import Button from '@/components/ui/Button.vue';
+import { TableColumn, TablePagination } from '@/types/ui/TableType';
 import { useWebhookLogsStore } from '@/stores/useWebhookLogsStore';
 
-const tableColumns = ref<TableColumn[]>([
+const tableColumns: TableColumn[] = [
   { name: 'Para', field: 'to' },
   { name: 'Evento', field: 'event' },
   { name: 'Status', field: 'status' },
   { name: 'Payload', field: 'payload' },
-]);
+];
 
 const tablePagination = ref<TablePagination>({
-  current_page: 1,
-  last_page: 1,
-  total: 1,
+  current_page: computed(() => webhooksStore.currentPage),
+  last_page: computed(() => webhooksStore.totalPages),
 });
 
 const webhooksStore = useWebhookLogsStore();
-const { webhooks, currentPage, totalPages, fetchWebhooks } = webhooksStore;
 
 const tableItems = computed(() => webhooksStore.webhooks);
 
 const getData = async (sortField = 'id', sortOrder = 'desc', page = 1, query = '') => {
-  await fetchWebhooks(sortField, sortOrder, page, query);
-  updateTableData();
+  await webhooksStore.fetchWebhooks(sortField, sortOrder, page, query);
+  //updateTableData();
 };
 
-const updateTableData = () => {
-  tablePagination.value = {
-    current_page: webhooksStore.currentPage,
-    last_page: webhooksStore.totalPages,
-    total: webhooks?.value?.length,
-  };
+// const updateTableData = () => {
+//   tablePagination.value = {
+//     current_page: webhooksStore.currentPage,
+//     last_page: webhooksStore.totalPages,
+//     total: webhooksStore.webhooks?.length || 0,
+//   };
+// };
 
-  tableItems.value = webhooks.value;
+const downloadFile = (payload: any) => {
+  const payloadString = JSON.stringify(payload, null, 2);
+  const blob = new Blob([payloadString], { type: 'application/json' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'payload.json';
+  link.click();
 };
 
-onMounted(async () => {
-  await fetchWebhooks();
-  updateTableData();
-})
+onMounted(() => {
+  webhooksStore.fetchWebhooks();
+});
 </script>
