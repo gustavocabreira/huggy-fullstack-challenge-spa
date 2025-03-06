@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 sm:px-4 md:px-0 min-w-screen min-h-screen">
+  <div class="px-4 sm:px-4 md:px-0 md:min-w-screen min-h-screen overflow-hidden">
     <div class="w-full md:w-8/12 mx-auto">
       <div class="flex items-center justify-between">
         <header class="py-4 flex items-start">

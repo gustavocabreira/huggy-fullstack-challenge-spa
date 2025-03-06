@@ -47,6 +47,10 @@
   --color-deep-sea-10: #F5FAF8; 
 }
 
+body {
+  overflow-x: hidden;
+}
+
 #app {
   background: #f8f8f8;
   font-family: Roboto, 'sans-serif';

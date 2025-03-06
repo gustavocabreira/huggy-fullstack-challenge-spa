@@ -6,6 +6,27 @@
 
 <script lang="ts" setup>
 import VueApexCharts from "vue3-apexcharts";
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const updateDimensions = () => {
+  if (window.innerWidth < 480) {
+    chartWidth.value = "100%";
+    chartHeight.value = "350";
+  } else if (window.innerWidth < 768) {
+    chartWidth.value = "100%";
+    chartHeight.value = "400";
+  } else if (window.innerWidth < 1024) {
+    chartWidth.value = "100%";
+    chartHeight.value = "450";
+  } else if (window.innerWidth < 1366) {
+    chartWidth.value = "100%";
+    chartHeight.value = "500";
+  } else {
+    chartWidth.value = "100%";
+    chartHeight.value = "550";
+  }
+};
+
 
 const props = defineProps({
   series: {
@@ -18,10 +39,13 @@ const props = defineProps({
   },
 });
 
+const chartWidth = ref("100%");
+const chartHeight = ref("350");
+
 const chartOptions = {
   chart: {
-    width: 380,
-    height: 380,
+    width: chartWidth,
+    height: chartHeight,
     type: 'pie',
   },
   colors: ['#2715B0', '#BDB5F4', '#7E6FEA', '#5946E4', '#180D6E'],
@@ -43,37 +67,66 @@ const chartOptions = {
     },
   },
   legend: {
-    position: 'right',
+    position: window.innerWidth < 768 ? "bottom" : "right",
     floating: false,
-    horizontalAlign: 'center',
-    verticalAlign: 'middle',
-    offsetX: -30,
-    offsetY: 80,
+    horizontalAlign: "center",
+    verticalAlign: "middle",
+    offsetX: window.innerWidth < 768 ? 0 : -30,
     margin: 20,
-    itemMargin: {
-      vertical: 5,
-    },
+    itemMargin: { vertical: 5 },
     itemStyle: {
-      fontFamily: 'Roboto',
-      fontSize: '12px',
-      lineHeight: '16px',
-      letterSpacing: '0.4px',
-      color: '#757575',
+      fontFamily: "Roboto",
+      fontSize: window.innerWidth < 480 ? "10px" : "12px",
+      lineHeight: "16px",
+      letterSpacing: "0.4px",
+      color: "#757575",
     },
-    width: 250,
+    width: window.innerWidth < 768 ? "100%" : 250,
   },
   responsive: [
+  {
+      breakpoint: 1280,
+      options: {
+        chart: {
+          width: "100%",
+          height: "500px",
+        },
+        legend: {
+          position: "right",
+          horizontalAlign: "center",
+          verticalAlign: "middle",
+          offsetY: 80,
+          offsetX: -30,
+        },
+      },
+    },
     {
       breakpoint: 1024,
       options: {
         chart: {
-          width: 406,
-          height: 406,
+          width: "100%",
+          height: "350px",
         },
         legend: {
-          position: 'bottom',
-          horizontalAlign: 'center',
-          verticalAlign: 'top',
+          position: "bottom",
+          horizontalAlign: "center",
+          verticalAlign: "top",
+          offsetY: 10,
+          offsetX: 0,
+        },
+      },
+    },
+    {
+      breakpoint: 768,
+      options: {
+        chart: {
+          width: "100%",
+          height: "350px",
+        },
+        legend: {
+          position: "bottom",
+          horizontalAlign: "center",
+          verticalAlign: "top",
           offsetY: 10,
           offsetX: 0,
         },
@@ -83,23 +136,32 @@ const chartOptions = {
       breakpoint: 480,
       options: {
         chart: {
-          width: '100%',
-          height: '100%',
+          width: "100%",
+          height: "100%",
         },
         legend: {
-          position: 'bottom',
-          horizontalAlign: 'center',
-          verticalAlign: 'top',
+          position: "bottom",
+          horizontalAlign: "center",
+          verticalAlign: "top",
           offsetY: 10,
           offsetX: 0,
           itemStyle: {
-            fontSize: '10px',
+            fontSize: "10px",
           },
         },
       },
     },
   ],
 };
+
+onMounted(() => {
+  window.addEventListener("resize", updateDimensions);
+  updateDimensions();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateDimensions);
+});
 </script>
 
 <style>
