@@ -2,6 +2,7 @@ import Login from "@/views/auth/Login.vue";
 import Contacts from "@/views/Contacts.vue";
 import AppLayout from "@/views/layouts/AppLayout.vue";
 import Reports from "@/views/Reports.vue";
+import Webhooks from "../views/Webhooks.vue";
 
 export default [
   {
@@ -30,6 +31,14 @@ export default [
         component: Reports,
         meta: {
           title: 'Relatórios',
+        },
+      },
+      {
+        path: 'webhooks',
+        name: 'Webhooks',
+        component: Webhooks,
+        meta: {
+          title: 'Webhooks',
         },
       },
     ],

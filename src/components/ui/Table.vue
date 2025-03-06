@@ -2,7 +2,7 @@
   <div class="w-full">
     <div class="flex px-6 py-4 border-b border-gray-200">
       <Caption v-for="(column, index) in columns" :key="index" :class="[ 
-        index === columns.length - 1 ? 'flex-none w-24' : 'flex-1', 
+        column.field === index ? 'flex-none w-24' : 'flex-1', 
         'text-left cursor-pointer' 
       ]" @click="sortBy(column.field)">
         {{ column.name }} <span v-if="sortField === column.field">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
@@ -14,8 +14,8 @@
         :class="{ active: activeRow === index }">
         <div class="flex items-center px-4 py-2 rounded-md">
           <div v-for="(column, colIndex) in columns" :key="colIndex"
-            :class="colIndex === columns.length - 1 ? 'flex-none body-2 w-24' : 'flex-1 body-2'">
-            <template v-if="colIndex === columns.length - 1">
+            :class="column.field == 'actions' ? 'flex-none body-2 w-24' : 'flex-1 body-2'">
+            <template v-if="column.field == 'actions'">
               <div class="action-buttons justify-end items-center h-full gap-4">
                 <Icon icon="edit" @click="editRow(row)">Editar</Icon>
                 <Icon icon="delete" @click="deleteRow(row)">Excluir</Icon>
