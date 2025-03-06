@@ -129,10 +129,6 @@ const updateContactAction = (contact: Contact) => {
   showContactDialog.value?.toggleVisible();
 };
 
-const toggleContactDialog = () => {
-  createContact?.value?.toggleVisible();
-};
-
 onMounted(async () => {
   await fetchContacts();
   updateTableData();
