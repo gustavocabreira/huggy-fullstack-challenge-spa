@@ -58,6 +58,7 @@ export const useContactStore = defineStore('contact', () => {
         'Content-Type': 'multipart/form-data',
       }
     });
+    
     contacts.value.push(response.data);
   }
 

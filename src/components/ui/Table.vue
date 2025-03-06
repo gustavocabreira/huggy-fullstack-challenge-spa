@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import { defineProps, ref } from 'vue';
-import type { TableColumn, TablePagination, TableRow } from '../../types/ui/TableType';
+import type { TableColumn, TablePagination, TableRow } from '@/types/ui/TableType';
 import Icon from '@/components/ui/Icon.vue';
 import Caption from '@/components/ui/Caption.vue';
 
