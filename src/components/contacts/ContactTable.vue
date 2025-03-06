@@ -6,7 +6,8 @@
     :pagination="tablePagination"
     @deleteRow="deleteContactAction"
     @updateRow="updateContactAction"
-    class="min-w-3xl">
+    class="min-w-3xl"
+  >
     <template v-slot:name="{ row }">
       <div class="flex items-center gap-4">
         <Avatar :contact="row" />
@@ -15,28 +16,51 @@
     </template>
   </Table>
 
-  <CreateContact @created="addContact" />
+  <div v-if="!contacts.length" class="empty-state">
+    <img :src="noContactImage" alt="No Contacts" />
+    <span class="body-2 text-gray-500 font-normal">Ainda não há contatos</span>
+    <Button class="mt-4" icon="add" color="primary" @click="toggleContactDialog">
+      Adicionar contato
+    </Button>
+  </div>
+
+  <CreateContact ref="createContact"/>
   <ShowContact ref="showContactDialog" @deleteContact="deleteContactAction" />
+
+  <ConfirmDialog
+    title="Excluir esse contato?"
+    :isVisible="isDeleteDialogVisible"
+    @update:isVisible="isDeleteDialogVisible = $event"
+    @confirm="performDeleteRow"
+  />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { type TablePagination, type TableColumn, type TableRow } from '@/types/ui/TableType';
 import { useContactStore } from '@/stores/useContactStore';
+import { useNotificationStore } from '@/stores/useNotificationStore';
 import type { Contact } from '@/types/Contact';
 
 import Table from '@/components/ui/Table.vue';
 import Avatar from '@/components/ui/Avatar.vue';
 import CreateContact from './CreateContact.vue';
 import ShowContact from './ShowContact.vue';
-import { useNotificationStore } from '@/stores/useNotificationStore';
+import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
+import Button from '@/components/ui/Button.vue';
+import noContactImage from '@/assets/images/no-contact.png';
 
 const props = defineProps({
-  query: {
-    type: String,
-    default: '',
-  },
+  query: { type: String, default: '' },
 });
+
+const contactStore = useContactStore();
+const notificationStore = useNotificationStore();
+
+const { fetchContacts, deleteContact, setSelectedContact, addContact } = contactStore;
+const { addNotification } = notificationStore;
+
+const contacts = computed(() => contactStore.contacts);
 
 const tableColumns = ref<TableColumn[]>([
   { name: 'Nome', field: 'name' },
@@ -53,18 +77,13 @@ const tablePagination = ref<TablePagination>({
   query: props.query,
 });
 
-const contactStore = useContactStore();
-const { fetchContacts, deleteContact, setSelectedContact, addContact } = contactStore;
+const isDeleteDialogVisible = ref(false);
+const contactToBeDeleted = ref<Contact | null>(null);
+const createContact = ref(null);
+const showContactDialog = ref(null);
+const selectedContact = ref<Contact | null>(null);
 
-const notificationStore = useNotificationStore();
-const { addNotification } = notificationStore;
-
-const getData = async (
-  sortField: string = 'name',
-  sortOrder: string = 'asc',
-  page: number = 1,
-  query: string = ''
-) => {
+const getData = async (sortField = 'name', sortOrder = 'asc', page = 1, query = '') => {
   try {
     await fetchContacts(sortField, sortOrder, page, query);
     updateTableData();
@@ -74,44 +93,51 @@ const getData = async (
 };
 
 const updateTableData = () => {
-  const { contacts, currentPage, totalPages } = contactStore;
-
   tablePagination.value = {
-    current_page: currentPage,
-    last_page: totalPages,
-    total: contacts.length,
+    current_page: contactStore.currentPage,
+    last_page: contactStore.totalPages,
+    total: contacts.value.length,
     query: props.query,
   };
 
-  tableItems.value = contacts;
+  tableItems.value = contacts.value;
 };
 
-watch(() => props.query, (newQuery) => {
-  getData(undefined, undefined, 1, newQuery);
-});
+watch(
+  () => props.query,
+  (newQuery) => getData(undefined, undefined, 1, newQuery)
+);
 
-const deleteContactAction = async (contact: Contact) => {
-  tableItems.value = tableItems.value.filter((c) => c.id !== contact.id);
+const deleteContactAction = (contact: Contact) => {
+  isDeleteDialogVisible.value = true;
+  contactToBeDeleted.value = contact;
+};
 
-  try {  
-    await deleteContact(contact);
+const performDeleteRow = async () => {
+  if (!contactToBeDeleted.value) return;
+
+  tableItems.value = tableItems.value.filter((c) => c.id !== contactToBeDeleted.value?.id);
+
+  try {
+    await deleteContact(contactToBeDeleted.value);
     addNotification({
       title: 'Contato excluído',
       message: 'Contato excluído com sucesso',
       type: 'SUCCESS',
     });
   } catch (error) {
-    tableItems.value.push(contact);
+    tableItems.value.push(contactToBeDeleted.value);
   }
 };
 
-const showContactDialog = ref(null);
-const selectedContact = ref<Contact | null>(null);
-
-const updateContactAction = async (contact: Contact) => {
+const updateContactAction = (contact: Contact) => {
   setSelectedContact(contact);
   selectedContact.value = contact;
   showContactDialog.value?.toggleVisible();
+};
+
+const toggleContactDialog = () => {
+  createContact?.value?.toggleVisible();
 };
 
 onMounted(async () => {
@@ -119,3 +145,15 @@ onMounted(async () => {
   updateTableData();
 });
 </script>
+
+<style scoped>
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  min-height: 66vh;
+  gap: 1rem;
+}
+</style>

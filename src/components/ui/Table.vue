@@ -35,31 +35,13 @@
         <Caption type="button" @click="nextPage" :disabled="pagination.current_page === pagination.last_page || isLoading">Próxima</Caption>
       </div>
     </div>
-
-    <div v-else class="flex flex-col items-center justify-center p-4 min-h-2/3 gap-4">
-      <img :src="noContactImage" alt="No Contacts" />
-      <span class="body-2 text-gray-500 font-normal">Ainda não há contatos</span>
-      <Button class="mt-4" icon="add" color="primary" @click="toggleContactDialog">Adicionar contato</Button>
-    </div>
-
-    <ConfirmDialog
-      title="Excluir esse contato?"
-      :isVisible="isModalVisible"
-      @update:isVisible="isModalVisible = $event"
-      @confirm="performDeleteRow"/>
-
-    <CreateContact ref="createContact"/>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { defineProps, ref } from 'vue';
 import type { TableColumn, TablePagination, TableRow } from '../../types/ui/TableType';
-import Button from '@/components/ui/Button.vue';
 import Icon from '@/components/ui/Icon.vue';
-import noContactImage from '@/assets/images/no-contact.png';
-import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
-import CreateContact from '@/components/contacts/CreateContact.vue'; 
 import Caption from '@/components/ui/Caption.vue';
 
 const props = defineProps<{
@@ -70,15 +52,11 @@ const props = defineProps<{
 }>();
 
 const activeRow = ref<number | null>(null);
-const selectedRow = ref<TableRow | null>(null);
 
 const sortField = ref('');
 const sortOrder = ref('asc');
 
 const isLoading = ref(false);
-const isModalVisible = ref(false);
-
-const createContact = ref(null);
 
 const emit = defineEmits(['deleteRow', 'updateRow']);
 
@@ -120,7 +98,7 @@ const editRow = (row: TableRow) => {
 };
 
 const deleteRow = (row: TableRow) => {
-  showConfirmDialog(row);
+  emit('deleteRow', row);
 };
 
 const setActiveRow = (index: number) => {
@@ -129,23 +107,6 @@ const setActiveRow = (index: number) => {
   } else {
     activeRow.value = index;
   }
-};
-
-const showConfirmDialog = (row: TableRow) => {
-  selectedRow.value = row;
-  isModalVisible.value = true;
-};
-
-const performDeleteRow = async () => {
-  if (!selectedRow.value) return;
-
-  emit('deleteRow', selectedRow.value);
-  selectedRow.value = null;
-  activeRow.value = null;
-};
-
-const toggleContactDialog = () => {
-  createContact?.value?.toggleVisible();
 };
 </script>
 
