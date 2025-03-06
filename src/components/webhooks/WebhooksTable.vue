@@ -13,14 +13,14 @@
       <Button 
         @click="downloadFile(row.payload, 'payload.json')" 
         color="primary">
-        Baixar payload
+        Download
       </Button>
     </template>
     <template v-slot:response="{ row }">
       <Button v-if="row.response" 
         @click="downloadFile(row.response, 'response.json')" 
         color="primary">
-        Baixar resposta
+        Download
       </Button>
       <span v-else>-</span>
     </template>
