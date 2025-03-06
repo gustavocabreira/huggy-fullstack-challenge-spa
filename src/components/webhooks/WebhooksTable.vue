@@ -11,14 +11,14 @@
     </template>
     <template v-slot:payload="{ row }">
       <Button 
-        @click="downloadFile(row.payload)" 
+        @click="downloadFile(row.payload, 'payload.json')" 
         color="primary">
         Baixar payload
       </Button>
     </template>
     <template v-slot:response="{ row }">
       <Button v-if="row.response" 
-        @click="downloadFile(row.response)" 
+        @click="downloadFile(row.response, 'response.json')" 
         color="primary">
         Baixar resposta
       </Button>
@@ -58,12 +58,12 @@ const getData = async (sortField = 'id', sortOrder = 'desc', page = 1, query = '
   await webhooksStore.fetchWebhooks(sortField, sortOrder, page, query);
 };
 
-const downloadFile = (payload: any) => {
+const downloadFile = (payload: any, filename: string) => {
   const payloadString = JSON.stringify(payload, null, 2);
   const blob = new Blob([payloadString], { type: 'application/json' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.download = 'payload.json';
+  link.download = filename;
   link.click();
 };
 
