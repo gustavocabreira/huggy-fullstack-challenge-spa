@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', () => {
   const logout = async () => {
     user.value = null;
     await axios.get(`${import.meta.env.VITE_API_URL}/sanctum/csrf-cookie`);
-    await client.post('logout')
+    await client.post('auth/logout')
     router.push({
       name: 'Login',
     });

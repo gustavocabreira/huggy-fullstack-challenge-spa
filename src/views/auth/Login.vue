@@ -24,6 +24,21 @@ onMounted(() => {
     withCredentials: true,
     withXSRFToken: true,
   }).then(() => {
+
+    if(route.query.code) {
+      axios.post(import.meta.env.VITE_API_URL +  '/api/huggy/login', {
+        code: route.query.code,
+      }, {
+        withCredentials: true,
+        withXSRFToken: true,
+      })
+      .then(response => {
+        router.push({
+          name: 'Contacts',
+        })
+      })
+    }
+
     if (route.query.access_token) {
       client.get('me', {
         withCredentials: true,

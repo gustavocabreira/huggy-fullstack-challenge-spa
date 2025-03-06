@@ -6,7 +6,7 @@
     :pagination="tablePagination"
     @deleteRow="deleteContactAction"
     @updateRow="updateContactAction"
-    class="min-w-3xl"
+    :class="{'min-w-3xl': contacts.length}"
   >
     <template v-slot:name="{ row }">
       <div class="flex items-center gap-4">
