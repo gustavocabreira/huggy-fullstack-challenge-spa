@@ -5,7 +5,7 @@
 
 ## Sobre o projeto
 
-API desenvolvida em Laravel para gerenciar os contatos de um usuário. É possível cadastrar, atualizar, excluir e recuperar informações de contato por meio de uma interface simples e segura.
+Aplicação em Vue.js para gerenciar os contatos de um usuário. É possível cadastrar, atualizar, excluir e recuperar informações de contato por meio de uma interface simples e segura.
 
 ## Tecnologias Utilizadas
 
