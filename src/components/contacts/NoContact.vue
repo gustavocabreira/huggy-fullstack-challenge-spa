@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center p-4 min-h-2/3 gap-4">
+  <div class="flex flex-col items-center justify-center p-4 min-h-2/3 gap-4" style="min-height: 616px;">
     <img :src="noContactImage" alt="No Contacts" />
     <span class="body-2 text-gray-500 font-normal">Ainda não há contatos</span>
     <Button class="mt-4" icon="add" color="primary" @click="toggleContactDialog">Adicionar contato</Button>
