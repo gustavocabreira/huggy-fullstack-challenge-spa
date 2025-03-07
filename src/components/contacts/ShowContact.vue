@@ -54,7 +54,6 @@ import Icon from '@/components/ui/Icon.vue';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
 import ContactDetail from '@/components/contacts/ContactDetail.vue';
 import UpdateContact from '@/components/contacts/UpdateContact.vue';
-import Button from '@/components/ui/Button.vue';
 import MakeCall from '@/components/contacts/MakeCall.vue';
 
 const isDialogVisible = ref(false);
@@ -83,10 +82,6 @@ const performDeleteRow = async () => {
   isDialogVisible.value = false;
   emit('deleteContact', contactsStore.selectedContact);
 };
-
-const makeCall = (phoneNumber: string) => {
-  console.log('makeCall', phoneNumber);
-}
 
 defineExpose({
   toggleVisible,

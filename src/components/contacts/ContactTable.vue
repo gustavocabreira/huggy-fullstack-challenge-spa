@@ -8,6 +8,9 @@
     @updateRow="updateContactAction"
     :class="{'min-w-3xl': contacts.length}"
   >
+    <template v-slot:cellphone_number="{ row }">
+      <span>{{ row.phone_number ?? row.cellphone_number ?? '-' }}</span>
+    </template>
     <template v-slot:name="{ row }">
       <div class="flex items-center gap-4">
         <Avatar :contact="row" />
