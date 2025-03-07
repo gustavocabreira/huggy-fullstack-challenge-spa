@@ -71,3 +71,5 @@ VITE_TWILIO_CALLER_ID=<número>
 ```bash
 docker compose up -d --build
 ```
+
+7. Acesse o projeto em http://spa.localhost.com
