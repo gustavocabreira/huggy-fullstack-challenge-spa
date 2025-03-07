@@ -1,5 +1,5 @@
 <template>
-  <Dialog :isVisible="isDialogVisible" @update:isVisible="isDialogVisible = $event" @confirm="updateContact">
+  <Dialog :isVisible="isDialogVisible" @update:isVisible="handleDialogClose" @confirm="updateContact">
     <template v-slot:header>
       <h2>Editar contato</h2>
     </template>
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useContactStore } from '@/stores/useContactStore';
 
 import Dialog from '@/components/ui/Dialog.vue';
@@ -20,12 +20,20 @@ import { useNotificationStore } from '@/stores/useNotificationStore';
 const isDialogVisible = ref(false);
 
 const contactStore = useContactStore();
-const contact = computed(() => contactStore.selectedContact);
+const contact = ref({ ...contactStore.selectedContact });
+const contactBackup = ref({});
 
 const notificationStore = useNotificationStore();
 const { addNotification } = notificationStore;
 
 const errors = ref({});
+
+watch(isDialogVisible, (visible) => {
+  if (visible) {
+    contactBackup.value = { ...contactStore.selectedContact };
+    contact.value = { ...contactStore.selectedContact };
+  }
+});
 
 const updateContact = async () => {
   try {
@@ -42,6 +50,13 @@ const updateContact = async () => {
   }
 };
 
+const handleDialogClose = (event: boolean) => {
+  if (!event) {
+    contact.value = { ...contactBackup.value };
+  }
+  isDialogVisible.value = event;
+};
+
 const toggleDialogVisibility = () => {
   isDialogVisible.value = !isDialogVisible.value;
 };
@@ -50,4 +65,3 @@ defineExpose({
   toggleVisible: toggleDialogVisibility,
 });
 </script>
-
